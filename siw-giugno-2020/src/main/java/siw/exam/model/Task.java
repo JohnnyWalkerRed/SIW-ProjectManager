@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 @Entity
@@ -36,6 +37,14 @@ public class Task {
 	  */
 	@ManyToMany (fetch=FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	private List <Tag> taskTag;
+	
+	/*
+	* Ogni task è associato ad un solo User
+	* la relazione è denominata ownerTask
+	* fetch EAGER: è opportuno caricare lo user al quale è associato quel task 
+	*/
+	@OneToOne (fetch=FetchType.EAGER)
+	private User ownerTask;
 	
 	public Task() {
 	}
@@ -86,6 +95,14 @@ public class Task {
 
 	public void setTaskTag(List<Tag> taskTag) {
 		this.taskTag = taskTag;
+	}
+
+	public User getOwnerTask() {
+		return ownerTask;
+	}
+
+	public void setOwnerTask(User ownerTask) {
+		this.ownerTask = ownerTask;
 	}
 
 	//metodo toString: stampa a video le info di Task
