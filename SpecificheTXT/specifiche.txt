@@ -1,0 +1,74 @@
+
+
+CASI D'USO
+
+-----------------------CASI D'USO USER------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--CASO D'USO SIGN UP: Creazione di un nuovo utente a partire dai dati
+
+1. Un utente vuole creare un account sulla piattaforma
+2. L'utente seleziona dalla home page il comando "sign in"
+3. L'utente inserisce nel form le informazioni necessarie alla creazione del nuovo account (Nome, Cognome, Username, Password, Password di conferma)
+4. L'utente invia il form 
+5. Il sistema verifica che i dati siano conformi (l'username non deve essere già stato usato)
+6. Il sistema crea un nuovo account utente con le informazioni appena fornite e vi specifica la data di creazione
+
+--ESTENSIONI PER SIGN UP:
+4E: Le informazioni inviate non sono in qualche modo valide (le password non coincidono, uno dei campi non è stato inserito)
+	4E.1: il sistema ritorna al passo 3 specificando la natura del problema, invitando l'utente ad inserire nuovi dati
+5E: I dati inviati non sono conformi (l'username è stato gia preso)
+	5E.1: il sistema ritorna al passo 3 specificando la natura del problema, invitando l'utente ad inserire nuovi dati 
+
+--CASO D'USO AUTENTICAZIONE: Accesso ad un account creato in precedenza
+
+1. Un utente vuole accedere al suo account creato in precedenza 
+2. L'utente seleziona dalla home page il comando "login" 
+3. L'utente inserisce nel form le informazioni richieste per l'autenticazione (Username, Password)
+4. L'utente invia il form
+5. Il sistema controlla l'autenticità dei dati
+6. L'utente è reindirizzato alla pagina del suo account
+
+--ESTENSIONI PER AUTENTICAZIONE:
+4E: Le informazioni inviate non sono in qualche modo valide (uno dei campi non è stato inserito)
+	4E.1: il sistema ritorna al passo 3 specificando la natura del problema, invitando l'utente ad inserire nuovi dati
+5E: I dati inviati non sono validi (l'username o la password sono errati)
+	5E.1: il sistema ritorna al passo 3 specificando la natura del problema, invitando l'utente ad inserire nuovi dati 
+
+--CASO D'USO VISUALIZZA PROFILO: Un utente che ha effettuato l'accesso visualizza i suoi dati
+
+1. Un utente autenticato vuole visualizzare i suoi dati 
+2. L'utente seleziona dalla home page il comando "visualizza dati"
+3. Il sistema restituisce tutti i dati dell'account "attuale", ovvero quello autenticato al momento (nome, cognome, username, progetti proprietari e visibili, task assegnate)
+
+--CASO D'USO AGGIORNARE PROFILO: Un utente autenticato modifica i dettagli del suo profilo
+
+1. Un utente autenticato vuole modificare i suoi dati 
+2. L'utente seleziona dalla pagina "visualizza dati" relativa al caso d'uso "caso d'uso visualizza profilo" la voce "modifica dati"
+3. L'utente inserisce la password nel form
+4. L'utente modifica i suoi dati
+5. L'utente seleziona la voce "conferma"
+
+--ESTENSIONI PER AGGIORNARE PROFILO:
+3E: La password inserita non è quella dell'account "attuale"
+	3E.1: Il sistema ritorna al passo 3 del caso d'uso principale specificando che la password inserita non è valida
+4E: L'utente può modificare due (2) tipi di dato: Password, Username
+	4E.1: L'utente vuole modificare la sua password
+		4E.1.1: L'utente inserisce nel form la nuova password con la password di conferma
+		4E.1.2: L'utente invia il form (passo 5)
+		4E.1.3: Il sistema registra il cambiamento di password nell'account attuale
+	--ESTENSIONI PER 4E.1:
+		4E.1.2E: Le informazioni inviate non sono valide (le password sono diverse, un campo non è inserito)
+			4E.1.2E.1: Il sistema ritorna al passo 4E.1.1
+			
+	4E.2: L'utente vuole modificare il suo username
+		4E.2.1: L'utente inserisce nel form il nuovo username
+		4E.2.2: L'utente invia il form (passo 5)
+		4E.2.3: Il sistema verifica che i dati siano conformi (l'username non deve essere già stato usato)
+		4E.2.4: Il sistema registra il nuovo username nell'account attuale
+	--ESTENSIONI PER 4E.2:
+		4E.2.2E: Le informazioni inviate non sono valide (un campo non è inserito)
+			4E.2.2E.1: Il sistema ritorna al passo 4E.2.1
+		4E.2.3E: Le informazioni inviate non sono valide (l'username è già in uso da un altro account)
+			4E.2.3E.1: Il sistema ritorna al passo 4E.2.1
+		
+
