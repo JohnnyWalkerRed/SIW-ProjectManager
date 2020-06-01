@@ -82,6 +82,7 @@ CASI D'USO
 4. L'utente invia il form
 5. Il sistema verifica che i dati siano conformi (i campi non devono essere vuoti)
 6. Il sistema crea un nuovo project con le informazioni fornite, lo aggiunge alla lista dei project dell'utente attuale e genera la data di inizio (begin date)
+7. L'utente crea il primo task del progetto (vedere passo 4 caso d'uso "aggiungere task")
 
 --ESTENSIONI PER CREA NUOVO PROJECT 
 5E: Le informazioni inserite non sono conformi (il campo è vuoto)
@@ -120,10 +121,9 @@ CASI D'USO
 4. Il sistema elimina il progetto dalla lista dei progetti dell'utente attuale
 5. Il sistema elimina il progetto dalla lista "progetti condivisi con me" di ciascun utente con il quale tale progetto sia stato condiviso
 6. Il sistema elimina tutti i task che fanno parte del progetto 
-7. Il sistema elimina tutti i tag che si riferiscono ai task relativi al progetto da canellare
-8. Il sistema elimina il progetto dai record persistenti 
+7. Il sistema elimina il progetto dai record persistenti 
 
---CASO D'USO CONDIVIDI PROGETTO: Un progeto viene reso visibile ad un determinato utente 
+--CASO D'USO CONDIVIDI PROGETTO: Un progetto viene reso visibile ad un determinato utente 
 
 1. Un utente registrato ed autenticato vuole condividere un progetto di cui è owner con un altro utente registrato
 2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
@@ -138,8 +138,115 @@ CASI D'USO
 6E: Le informazioni inserite non sono conformi (il campo è vuoto, l'username inserito non specifica nessun utente registrato)
 6E.1: Il sistema ritorna al passo 4 specificando la natura del problema 
 
---CASO D'USO AGGIUNGERE UN TAG
+--CASO D'USO AGGIUNGERE UN TAG (PROGETTO): Si aggiunge un tag ad un progetto 
 
+1. Un utente registrato ed autenticato vuole aggiungere un tag ad un progetto di cui è owner
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. Dalla lsita dei progetti l'utente seleziona la voce "aggiungi tag" accanto al progetto su cui intende intervenire
+4. L'utente inserisce le informazioni nel form (nome)
+5. L'utente invia il form
+6. Il sistema verifica che id ati siano conformi (i campi non devono essere vuoti, il nome inserito deve riferirsi ad un tag effettivamente esistente)
+7. Il sistema lega il tag al progetto attuale
+
+--ESTENSIONI PER AGGIUNGERE TAG (PROGETTO)
+6E: Le informazioni inserite non sono conformi (il campo è vuoto, il nome del tag non si riferisce a nessun tag esistente)
+6E.1: Il sistema ritorna al passo 4 specificando la natura del problema 
+
+
+-----------------------CASI D'USO PER TASK-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--CASO D'USO VISUALIZZA TASK: Viene visualizazta la lista di task di un determinato progetto
+
+1. Un utente registrato ed autenticato vuole visualizzare la lista di task di un progetto
+2. Il sistema visualizza un alista di progetti
+3. L'utente seleziona la voce "visualizza task" accanto al progetto del quale vuole visualizzare i task
+4. Il sistema mostra nome, descrizione e utente relativo di ciascun task della lista di task del progetto specificato
+
+--ESTENSIONI PER VISUALIZZA TASK
+2E: Il sistema può visualizzare due liste di progetti, quella di progetti di cui l'utente attuale è "owner" e quella di progetti su cui ha "visibility"
+	2E.1: L'utente vuole visualizzare la lista di progetti dei quali è owner
+		2E1.1: L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+	2E.2: L'utente vuole visualizzare la lista di progetti dei quali ha "visibility"
+		2E.2.1: L'utente seleziona la voce "visualizza project condivisi con me"	[caso d'uso "visualizza progetti condivisi con me"]
+	
+--CASO D'USO AGGIUNGERE TASK: Viene aggiunto un task ad un progetto 
+
+1. Un utente registrato ed autenticato vuole aggiungere un task ad un progetto di cui è owner
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. L'utente seleziona la voce "aggiungi task" accanto al progetto a cui vuole aggiungere il task
+4. L'utente inserisce nel form le informazioni per la creazione del task (name, description)
+5. L'utente invia il form
+6. Il sistema verifica che i dati siano conformi (i campi non devono essere vuoti, il nome del task non deve essere già in uso per questo progetto)
+7. Il sistema crea il nuovo task con i dati forniti (name, description)
+8. Il sistema aggiunge un collegamento per il task appena creato nella lista di task del progetto attuale 
+
+--ESTENSIONI PER AGGIUNGERE TASK 
+6E: Le informazioni inserite non sono conformi (il campo è vuoto, il nome del task è già in uso per i task di questo progetto)
+6E.1: Il sistema ritorna al passo 4 specificando la natura del problema 
+
+--CASO D'USO AGGIORNARE TASK: Un task appartenente ad un determinato progetto viene modificato
+
+1. Un utente registarto ed autenticato vuole modificare dei dettagli relativi ad un task di un progetto di cui lui è "owner"
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. L'utente seleziona la voce "aggiungi task" accanto al progetto a cui vuole aggiungere un task
+4. L'utente inserisce nel form i nuovi dati
+5. L'utente invia il form
+6. Il sistema verifica che i dati siano conformi (i campi vuoti non verranno modificati)
+7. Il sistema registra le modifiche sul task come specificato
+
+--CASO D'USO CANCELLARE UN TASK: Un task viene cancellato definitivamente dalla memoria persistente
+
+1. Un utente registrato ed autenticato vuole cancellare un task relativo ad un progetto di cui è "owner"
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. L'utente seleziona la voce "visualizza task" accanto al progetto del quale vuole visualizzare i task	[caso d'uso "visualizza task" con estensione 2E.1]
+4. L'utente seleziona la voce "elimina task" accanto al task che intende cancellare
+5. Il sistema elimina il collegamento al task da tutti i tag che vi si riferiscono
+6. Il sistema elimina tutti i dati del task dalla memoria persistente, compresi i dati che hanno a che fare con l'utente relativo ed i commenti
+
+--CASO D'USO ASSEGNARE UN UTENTE AD UN TASK: Ad un task viene assegnato un utente tra quelli che hanno "visibility" sul project 
+1. Un utente registrato ed autenticato vuole assegnare ad un task tra quelli di un progetto di cui è owner, un utente che ha visibility sul progetto stesso
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. L'utente seleziona la voce "visualizza task" accanto al progetto del quale vuole visualizzare i task	[caso d'uso "visualizza task" con estensione 2E.1]
+4. L'utente seleziona la voce "aggiungi utente" accanto al task a cui intende legare un utente
+5. L'utente inserisce le informazioni nel form
+6. L'utente invia il form
+7. Il sistema verifica che i dati siano conformi (i campi non devono essere vuoti, l'username inserito deve essere registrato e deve essere nella lista di utenti con visibility per il progetto attuale)
+8. Il sistema registra il legame tra il task e l'utente specificato
+
+--ESTENSIONI PER ASSEGNARE UN UTENTE AD UN TASK
+7E: Le informazioni inserite non sono conformi (il campo è vuoto, l'username inserito non specifica nessun utente registrato, l'utente specificato non dispone della visibility sul progetto attuale)
+7E.1: Il sistema ritorna al passo 5 specificando la natura del problema 
+
+--CASO D'USO AGGIUNGERE TAG (TASK): Viene aggiunto un tag ad un task 
+
+1. Un utente registrato ed autenticato vuole aggiungere un tag ad un task di un progetto di cui è owner
+2. L'utente seleziona la voce "progetti" dalla home page [caso d'uso "visualizza progetti"]
+3. L'utente seleziona la voce "visualizza task" accanto al progetto del quale vuole visualizzare i task	[caso d'uso visualizza task con estensione 2E.1]
+4. L'utente seleziona la voce "aggiungi tag" accanto al task su cui intende intervenire
+5. L'utente inserisce i dati nel form (nome del tag)
+6. L'utente invia il form
+7. Il sistema verifica che i dati siano conformi (il campo non deve essere vuoto, il nome inserito deve riferirsi ad un tag effettivamente esistente)
+8. Il sistema lega il tag al task attuale
+
+--ESTENSIONI PER AGGIUNGERE UN TAG (TASK)
+7E: Le informazioni inserite non sono conformi (il campo è vuoto, il nome del tag non si riferisce a nessun tag esistente)
+7E.1: Il sistema ritorna al passo 5 specificando la natura del problema 
+
+--CASO D'USO AGGIUNGERE UN COMMENTO: Viene aggiunto un commento ad un determinato task
+
+1. Un utente vuole aggiungere un commento ad un task relativo ad un progetto su cui ha visibility o del quale è "owner"
+2. L'utente seleziona una visualizzazione di progetti [caso d'uso "visualizza progetti" oppure caso d'uso "visualizza progetti condivisi con me"]
+3. L'utente seleziona la voce "visualizza task" accanto al progetto del quale vuole visualizzare i task	[caso d'uso "visualizza task"]
+4. L'utente seleziona la voce "inserisci commento" accanto al task sul quale vuole commentare
+5. L'utente inserisce i dati nel form (descrizione del commento)
+6. L'utente invia il form
+7. Il sistema verifica che i dati siano conformi (il commento non può evere una descrizione vuota)
+8. Il sistema crea il nuovo commento 
+9. Il sistema lega il commento creato al task aggiungendolo alla lista dei commenti
+
+--ESTENSIONI PER AGGIUNGERE UN COMMENTO
+7E: Le informazioni inserite non sono conformi (il campo è vuoto)
+7E.1: Il sistema ritorna al passo 5 specificando la natura del problema 
 
 
 
