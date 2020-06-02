@@ -55,7 +55,7 @@ public class User {
 	@ManyToMany (mappedBy="members", fetch=FetchType.LAZY)
 	private List <Project> visibleProjects;
 			
-	//costruttore base
+	//costruttore no args
 	public User() {
 		
 	}

@@ -49,10 +49,10 @@ public class Project {
 	* la relazione è denominata tasks
 	* fetch EAGER: è di interesse avere accesso alle 
 	* attività quando si accede ad un progetto
-	* cascade: i Task possono esistere indipendemente dal progetto
+	* cascade REMOVE: i Task esistono solo se associati ad un progetto 
 	  */
-	@OneToMany (fetch=FetchType.EAGER)
-	private List <Task> tasks;
+	@OneToMany (fetch=FetchType.EAGER, cascade = {CascadeType.REMOVE})
+	private List <Task> projectTasks;
 	
 	/*
 	* Ogni progetto può essere associato ad uno o più Tag
@@ -61,7 +61,7 @@ public class Project {
 	* cascade REMOVE: non ha senso avere dei tag non associati ad alcun progetto
 	  */
 	@OneToMany (fetch=FetchType.LAZY, cascade = {CascadeType.REMOVE})
-	private List <Tag> tags;
+	private List <Tag> projectTags;
 	
 	//inizializza con la data odierna prima di un Persist
 	@PrePersist
@@ -69,7 +69,7 @@ public class Project {
 		beginDate= LocalDate.now();
 		}
 	
-	//costruttore vuoto
+	//costruttore no args
 	public Project() {
 		
 	}
@@ -134,19 +134,19 @@ public class Project {
 	}
 		
 	public List<Task> getTasks() {
-		return tasks;
+		return projectTasks;
 	}
 
 	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
+		this.projectTasks = tasks;
 	}
 
 	public List<Tag> getTags() {
-		return tags;
+		return projectTags;
 	}
 
 	public void setTags(List<Tag> tags) {
-		this.tags = tags;
+		this.projectTags = tags;
 	}
 	
 	//metodo toString: stampa a video le info di progetto

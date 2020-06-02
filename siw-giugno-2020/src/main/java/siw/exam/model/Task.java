@@ -34,9 +34,11 @@ public class Task {
 	* associato ad uno o più task
 	* la relazione è denominata taskTag
 	* fetch LAZY: qualora necessario visualizzare i tag verranno caricati 
-	* cascade REMOVE: non ha senso avere dei tag non associati ad alcun task
+	* cascade: ogni tag potrebbe essere associato a più task, eventuali 
+	* tag non associati ad alcun task verranno eliminati all'eliminazione
+	* del progetto
 	  */
-	@ManyToMany (fetch=FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	@ManyToMany (fetch=FetchType.LAZY)
 	private List <Tag> taskTag;
 	
 	/*
@@ -55,7 +57,7 @@ public class Task {
 	@OneToMany (fetch = FetchType.LAZY, cascade= {CascadeType.REMOVE})
 	private List<Comment> comments;
 	
-	
+	//costruttore no args
 	public Task() {
 	}
 	
