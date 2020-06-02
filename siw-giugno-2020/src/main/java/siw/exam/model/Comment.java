@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Comment {
@@ -16,9 +15,6 @@ public class Comment {
 	//attributo description string
 	@Column
 	private String description;
-	//relazione con il task a cui il commento si riferisce
-	@OneToOne
-	private Task commentedTask;
 	//costruttore no args
 	public Comment () {}
 	//costruttore con set della descrizione
@@ -35,13 +31,6 @@ public class Comment {
 		this.description = description;
 	}
 
-	public Task getCommentedTask() {
-		return commentedTask;
-	}
-
-	public void setCommentedTask(Task commentedTask) {
-		this.commentedTask = commentedTask;
-	}
 
 	public Long getId() {
 		return id;

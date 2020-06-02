@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
@@ -45,6 +46,15 @@ public class Task {
 	*/
 	@OneToOne (fetch=FetchType.EAGER)
 	private User ownerTask;
+	
+	/*Un utente può scrivere uno o più commenti sotto un task
+	 * la relazione è denominata comments
+	 * fetch LAZY: se necessario i commenti vengono caricati
+	 * cascade REMOVE: non ha senso mantenere dei commenti su un task 
+	 * se questo è eliminato*/
+	@OneToMany (fetch = FetchType.LAZY, cascade= {CascadeType.REMOVE})
+	private List<Comment> comments;
+	
 	
 	public Task() {
 	}
@@ -99,6 +109,14 @@ public class Task {
 
 	public User getOwnerTask() {
 		return ownerTask;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	public void setOwnerTask(User ownerTask) {
