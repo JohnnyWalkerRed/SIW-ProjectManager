@@ -11,6 +11,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	public Optional <User> findById(long id);
 	public Optional <User> findByFirstName(String username);
-	public Optional <Project> findByOwnedProjects(User user);
-	public Optional <Project> findByVisibleProject(User user);
+	public Optional <User> findByOwnedProjects(Project project);
+	public Optional <User> findByVisibleProjects(Project project);
 }

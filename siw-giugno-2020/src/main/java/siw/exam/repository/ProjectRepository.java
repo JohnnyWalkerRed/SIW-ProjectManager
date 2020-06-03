@@ -1,7 +1,6 @@
 package siw.exam.repository;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +14,6 @@ public Optional <Project> findById(long id);
 public Optional <Project> findByName(String name);
 public Optional <Project> findByBeginDate(LocalDate date);
 public Optional <Project> findByOwner(User owner);
-public Optional <Project> findByMembers(List <User> members);
+public Optional <Project> findByMembers(User member);
 
 }

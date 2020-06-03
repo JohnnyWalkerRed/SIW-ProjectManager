@@ -11,6 +11,6 @@ import siw.exam.model.User;
 public interface TaskRepository extends CrudRepository<Task, Long> {
 	public Optional <Task> findById(long id);
 	public Optional <Task> findByCreationDate(LocalDate date);
-	public Optional <User> findByOwnerTask (Task task);
+	public Optional <Task> findByOwnerTask (User user);
 
 }
