@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
+
+
 @Entity
 public class Project {
 	
@@ -73,6 +75,16 @@ public class Project {
 	public Project() {
 		
 	}
+	
+	/* Si occupa di aggiungere uno user che ha 
+	 * visibilità su un progetto
+	 * controllando prima che non sia già presente
+	 * tra gli user con visibilità
+	 */
+	public void addMember(User user) {
+        if (!this.members.contains(user))
+            this.members.add(user);
+    }
 
 	//metodi getters and setters
 	public Long getId() {

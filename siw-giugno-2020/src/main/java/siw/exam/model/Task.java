@@ -29,6 +29,9 @@ public class Task {
 	
 	private LocalDate creationDate;
 	
+	 @Column(nullable = false)
+	  private boolean completed;
+	
 	/*
 	* Ogni task può essere associato ad uno o più tag e ogni tag può essere
 	* associato ad uno o più task
@@ -124,6 +127,14 @@ public class Task {
 	public void setOwnerTask(User ownerTask) {
 		this.ownerTask = ownerTask;
 	}
+	
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
 	//metodo toString: stampa a video le info di Task
 	@Override
