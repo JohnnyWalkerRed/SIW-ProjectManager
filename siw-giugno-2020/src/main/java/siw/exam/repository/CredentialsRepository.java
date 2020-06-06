@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import siw.exam.model.Credentials;
 
-public interface CredentialRepository extends CrudRepository<Credentials, Long> {
+public interface CredentialsRepository extends CrudRepository<Credentials, Long> {
 	
 	
 	public Optional <Credentials> findByUserName (String username);

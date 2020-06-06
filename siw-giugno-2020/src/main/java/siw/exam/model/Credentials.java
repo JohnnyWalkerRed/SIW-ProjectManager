@@ -41,5 +41,58 @@ public class Credentials {
 	  */
 	@OneToOne(cascade=CascadeType.ALL)
 	private User user;
+	
+	public Credentials() {
+		
+	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public static String getDefaultRole() {
+		return DEFAULT_ROLE;
+	}
+
+	public static String getAdminRole() {
+		return ADMIN_ROLE;
+	}
+
+	
 }
