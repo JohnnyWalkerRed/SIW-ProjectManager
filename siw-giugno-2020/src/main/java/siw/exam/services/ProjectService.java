@@ -54,10 +54,10 @@ public class ProjectService {
     }
 
     /**
-     * Condivide un projec con uno Uuser.
+     * Condivide un project con uno User.
      * @param il Project da condividere con uno User
-     * @param user the User with to share the Project to
-     * @return the shared Project
+     * @param l'user con il quale condividere il project
+     * @return il progetto condiviso
      */
     @Transactional
     public Project shareProjectWithUser(Project project, User user) {

@@ -51,9 +51,9 @@ public class Project {
 	* la relazione è denominata tasks
 	* fetch EAGER: è di interesse avere accesso alle 
 	* attività quando si accede ad un progetto
-	* cascade REMOVE: i Task esistono solo se associati ad un progetto 
+	* cascade ALL: qualsiasi azione eseguita sul project agisce in cascade sui Tasks associati 
 	  */
-	@OneToMany (fetch=FetchType.EAGER, cascade = {CascadeType.REMOVE})
+	@OneToMany (fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
 	private List <Task> projectTasks;
 	
 	/*
