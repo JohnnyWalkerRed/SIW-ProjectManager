@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import siw.exam.model.Credentials;
@@ -12,7 +13,8 @@ import siw.exam.repository.CredentialsRepository;
 
 @Service
 public class CredentialsService {
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private CredentialsRepository credentialsRepository;
 	
@@ -30,6 +32,7 @@ public class CredentialsService {
 	
 	public Credentials saveCredentials (Credentials credentials) {
 		credentials.setRole(Credentials.DEFAULT_ROLE);
+		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		return this.credentialsRepository.save(credentials);
 	}
 	

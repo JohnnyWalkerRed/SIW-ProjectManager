@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 
@@ -29,7 +30,7 @@ public class User {
 	
 	@Column (nullable=false)
 	private String lastName;
-	
+	@Column
 	private LocalDate creationDate;
 	
 	
@@ -109,7 +110,10 @@ public class User {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", creationDate="
 				+ creationDate + ", ownedProjects=" + ownedProjects + ", visibleProjects=" + visibleProjects + "]";
 	}
-
+	@PrePersist
+	protected void onPersist() {
+		this.creationDate=LocalDate.now();
+	}
 	//metodo toString: stampa a video un utente
 	
 }
