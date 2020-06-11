@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import siw.exam.model.Project;
 import siw.exam.model.User;
 import siw.exam.repository.UserRepository;
 
@@ -52,5 +53,8 @@ public class UserService {
         for(User user : iterable)
             result.add(user);
         return result;
+    }
+    public List<User> getMembers(Project project){
+    	return this.userRepository.findByVisibleProjects(project);
     }
 }

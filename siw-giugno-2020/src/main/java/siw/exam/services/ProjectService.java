@@ -10,7 +10,7 @@ import siw.exam.model.Project;
 import siw.exam.model.User;
 import siw.exam.repository.ProjectRepository;
 
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,5 +63,10 @@ public class ProjectService {
     public Project shareProjectWithUser(Project project, User user) {
         project.addMember(user);
         return this.projectRepository.save(project);
+    }
+    
+    public List <Project> retrieveProjectsOwnedBy(User user){
+    	return this.projectRepository.findByOwner(user);
+    	
     }
 }
