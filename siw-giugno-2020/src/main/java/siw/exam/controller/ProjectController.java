@@ -31,23 +31,41 @@ public class ProjectController {
 	@Autowired
 	SessionData sessionData;
 	
-	@RequestMapping(value= { "/projects{projectId}" }, method = RequestMethod.GET)
+	@RequestMapping(value= { "/projects" }, method = RequestMethod.GET)
+	public String myOwnedProjects(Model model) {
+		
+		User loggedUser = sessionData.getLoggedUser();
+				
+		List <Project> projectsList =  projectService.retrieveProjectsOwnedBy(loggedUser);
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("projectList", projectsList);
+		return "myOwnedProjects";
+	}
+	
+	@RequestMapping(value= { "/projects/{projectId}" }, method = RequestMethod.GET)
 	public String myOwnedProjects(Model model,
 									@PathVariable Long projectId) {
+		
+		/* se il progetto non è presente tra quelli in DB
+		 * reindirizza ai miei progetti
+		 */
 		Project project = projectService.getProject(projectId);
 		if (project==null)
 			return "redirect:/projects";
 		
 		User loggedUser = sessionData.getLoggedUser();
 		
+		/*se lo user non ha visibilità o è proprietario del progetto, 
+		 * rimanda alla lista dei progetti dello user
+		 */
 		List <User> members = userService.getMembers(project);
 		if (!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))
 			return "redirect:/projects";
 		
-		List <Project> projectsList =  projectService.retrieveProjectsOwnedBy(loggedUser);
 		model.addAttribute("loggedUser", loggedUser);
-		model.addAttribute("projectList", projectsList);
-		return "myOwnedProjects";
+		model.addAttribute("project", project);
+		model.addAttribute("members", members);
+		return "project";
 	}
 	
     @RequestMapping(value = { "/projects/add" }, method = RequestMethod.GET)
