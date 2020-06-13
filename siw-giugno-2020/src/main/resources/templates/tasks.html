@@ -22,9 +22,7 @@
 			<td><a th:href="'/tasks/'+${task.id}" th:text="${task.name}">...</a></td>
 			<td th:text="${task.description}">...</td>
 			<td>
-				<form method="GET" th:action="@{/tasks/{task}/addTag(task=${task.id})}">
-					<button type="submit" name="submit" value="value">ADD TAG</button>
-				</form>
+				<a th:href="'/tags/'+${task.id}+'/addTag'">ADD TAG</a>
 			</td>
 		</tr>
 		</tbody>

@@ -62,8 +62,9 @@ public class ProjectService {
      */
     @Transactional
     public Project shareProjectWithUser(Project project, User user) {
-        project.addMember(user);
-        return this.projectRepository.save(project);
+        Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	activeProject.addMember(user);
+        return this.projectRepository.save(activeProject);
     }
     @Transactional
     public List<Project> retrieveProjectOwnedBy(User user){

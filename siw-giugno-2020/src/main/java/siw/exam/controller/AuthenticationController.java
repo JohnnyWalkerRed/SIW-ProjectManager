@@ -53,6 +53,7 @@ public class AuthenticationController {
 		
 		if(!userBindingResult.hasErrors()&&!credentialsBindingResult.hasErrors()) {
 			credentials.setUser(user);
+			user.setCredentials(credentials);
 			credentialsService.saveCredentials(credentials);
 			return "registrationSuccessful";
 		}

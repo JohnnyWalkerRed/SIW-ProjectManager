@@ -1,16 +1,21 @@
 package siw.exam.validator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import siw.exam.model.Task;
+import siw.exam.model.User;
+import siw.exam.repository.UserRepository;
 @Component
 public class TaskValidator implements Validator{
 	final Integer MAX_NAME_LENGTH = 100;
 	final Integer MIN_NAME_LENGTH = 2;
 	final Integer MAX_DESCRIPTION_LENGTH = 200;
 	final Integer MIN_DESCRIPTION_LENGTH = 0;
+	@Autowired
+	UserRepository userRepository;
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Task.class.equals(clazz);
@@ -21,7 +26,6 @@ public class TaskValidator implements Validator{
 		Task task = (Task)target;
 		String name = task.getName().trim();
 		String description =task.getDescription().trim();
-		
 		if(name.trim().isEmpty())
 			errors.rejectValue("taskName", "required");
 		else if (name.length()<MIN_NAME_LENGTH || name.length()>MAX_NAME_LENGTH)

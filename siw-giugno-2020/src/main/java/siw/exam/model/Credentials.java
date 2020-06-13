@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -40,7 +41,8 @@ public class Credentials {
 	* deve esser svolta anche sullo User
 	  */
 	@OneToOne(cascade=CascadeType.ALL)
-	private User user;
+	@JoinColumn(name="user_id", nullable=false)
+	private User relatedUser;
 	
 	public Credentials() {
 		
@@ -79,11 +81,11 @@ public class Credentials {
 	}
 
 	public User getUser() {
-		return user;
+		return relatedUser;
 	}
 
 	public void setUser(User user) {
-		this.user = user;
+		this.relatedUser = user;
 	}
 
 	public static String getDefaultRole() {

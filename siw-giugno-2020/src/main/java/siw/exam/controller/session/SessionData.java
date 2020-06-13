@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import siw.exam.model.Credentials;
+import siw.exam.model.Project;
+import siw.exam.model.Task;
 import siw.exam.model.User;
 import siw.exam.repository.CredentialsRepository;
 
@@ -19,6 +21,8 @@ public class SessionData {
 	private Credentials credentials;
 	@Autowired
 	private CredentialsRepository credentialsRepository;
+	private Project activeProject;
+	private Task activeTask;
 	/*Metodo che si occupa di preparare gli attributi prendendone i valori dall'autenticazione di Security*/
 	private void update() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -37,5 +41,17 @@ public class SessionData {
 		if(this.credentials==null)
 			this.update();
 		return this.credentials;
+	}
+	public void setActiveProject(Project project) {
+		this.activeProject=project;
+	}
+	public Project getActiveProject() {
+		return this.activeProject;
+	}
+	public void setActiveTask(Task task) {
+		this.activeTask=task;
+	}
+	public Task getActiveTask(Task task) {
+		return this.activeTask;
 	}
 }

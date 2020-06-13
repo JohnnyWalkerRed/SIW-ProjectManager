@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import siw.exam.model.Tag;
 @Component
-public class tagValidator implements Validator{
+public class TagValidator implements Validator{
 	final Integer MAX_NAME_LENGTH = 100;
 	final Integer MIN_NAME_LENGTH = 2;
 	final Integer MAX_DESCRIPTION_LENGTH = 200;

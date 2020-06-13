@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import siw.exam.model.Credentials;
+import siw.exam.model.Project;
 import siw.exam.model.User;
 import siw.exam.repository.UserRepository;
 
@@ -30,7 +32,11 @@ public class UserService {
         Optional<User> result = this.userRepository.findById(id);
         return result.orElse(null);
     }
-
+    @Transactional 
+    public User getUserByCredentials(Credentials credentials) {
+    	Optional<User> result = this.userRepository.findByCredentials(credentials);
+    	return result.orElse(null);
+    }
     /**
      * Metodo che salva User nel DB e restituisce lo stesso User
      * return: User
@@ -52,5 +58,12 @@ public class UserService {
         for(User user : iterable)
             result.add(user);
         return result;
+    }
+   
+    @Transactional
+    public void sharedProject(Project project, User user) {
+    	User activeUser = this.userRepository.findById(user.getId()).orElse(null);
+    	activeUser.addVisibleProject(project);
+    	this.userRepository.save(activeUser);
     }
 }

@@ -1,5 +1,7 @@
 package siw.exam.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,16 +12,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import siw.exam.model.Task;
+import siw.exam.model.User;
 import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.TaskRepository;
+import siw.exam.services.ProjectService;
 import siw.exam.services.TaskService;
 import siw.exam.validator.TaskValidator;
+import siw.exam.controller.session.SessionData;
 import siw.exam.model.Project;
-import siw.exam.model.Tag;
 
 
 @Controller
 public class TaskController {
+	@Autowired 
+	ProjectService projectService;
 	@Autowired
 	ProjectRepository projectRepository;
 	@Autowired
@@ -28,25 +34,41 @@ public class TaskController {
 	TaskService taskService;
 	@Autowired
 	TaskValidator taskValidator;
+	@Autowired
+	SessionData sessionData;
+	@RequestMapping (value = {"/tasks/{projectId}/addTask"}, method = RequestMethod.GET)
+	public String addTaskForm(Model model, @PathVariable Long projectId) {
+		model.addAttribute("taskForm", new Task());
+		Project activeProject = this.projectService.getProject(projectId);
+		model.addAttribute("activeProject", activeProject);
+		this.sessionData.setActiveProject(activeProject);
+		return "addTaskForm";
+	}
 	@RequestMapping (value = {"/tasks/add"}, method = RequestMethod.POST)
-	public String addTask(@Validated @ModelAttribute("taskForm") Task task, BindingResult taskBindingResult, Model model){
+	public String addTask(@Validated @ModelAttribute("taskForm") Task task, 
+						  BindingResult taskBindingResult, 
+						  Model model){
 		taskValidator.validate(task, taskBindingResult);
-		Project activeProject = (Project) model.getAttribute("project");
+		Project activeProject = this.sessionData.getActiveProject();
 		if(!taskBindingResult.hasErrors()) {
 			/*da aggiungere la parte dell'aggiunta dell'user a cui si riferisce*/
 			activeProject.getTasks().add(task);
 			this.taskRepository.save(task);
 			this.projectRepository.save(activeProject);
-			return "redirect:/tasks";
+			return "redirect:/projects";
 		}
 		model.addAttribute("project", activeProject);
-		return "addTask";
+		return "/tasks/"+activeProject.getId()+"/addTask";
 	}
-	@RequestMapping (value = {"/tasks/{task}/addTag"}, method=RequestMethod.GET)
-	public String addTag(Model model, @PathVariable Long task) {
-		Task activeTask = this.taskService.getTask(task);
-		model.addAttribute("activeTask", activeTask);
-		model.addAttribute("tagForm", new Tag());
-		return "/tags/addTagForum";
+	
+	@RequestMapping (value = {"/tasks/{projectId}/seeTasks"}, method=RequestMethod.GET)
+	public String seeTasks(Model model, @PathVariable Long projectId) {
+		Project activeProject = this.projectService.getProject(projectId);
+		this.sessionData.setActiveProject(activeProject);
+		List<Task> taskList = activeProject.getTasks();
+		model.addAttribute("project", activeProject);
+		model.addAttribute("taskList", taskList);
+		return "/tasks";
 	}
+	
 }

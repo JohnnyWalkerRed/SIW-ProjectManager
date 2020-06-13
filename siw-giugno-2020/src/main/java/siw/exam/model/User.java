@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -32,8 +34,6 @@ public class User {
 	private String lastName;
 	@Column
 	private LocalDate creationDate;
-	
-	
 	/*L'utente può essere proprietario di uno o più progetti e ogni progetto ha un proprietario:
 	 *la relazione è denominata owner; 
 	 *cascadeType REMOVE: qualora eliminassimo il
@@ -49,7 +49,10 @@ public class User {
 	 */
 	@ManyToMany (mappedBy="members", fetch=FetchType.LAZY)
 	private List <Project> visibleProjects;
-			
+	
+	@OneToOne(mappedBy = "relatedUser", cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+	private Credentials credentials;
+	
 	//costruttore no args
 	public User() {
 		
@@ -61,6 +64,11 @@ public class User {
 		return id;
 	}
 
+	public void addVisibleProject(Project project) {
+		if(!this.visibleProjects.contains(project))
+			this.visibleProjects.add(project);
+	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -103,6 +111,14 @@ public class User {
 
 	public void setVisibleProjects(List<Project> visibleProjects) {
 		this.visibleProjects = visibleProjects;
+	}
+
+	public Credentials getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
 	}
 
 	@Override

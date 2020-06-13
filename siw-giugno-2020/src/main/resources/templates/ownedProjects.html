@@ -15,21 +15,22 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
+			<th>See Tasks</th>
+			<th>Add task</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr th:each = "project : ${projectsList}">
+		<tr th:each = "project : ${projectList}">
 			<td><a th:href="'/projects/'+${project.id}" th:text="${project.name}">...</a></td>
 			<td th:text="${project.description}">...</td>
 			<td>
-				<form method="GET" th:action="@{/projects/{project}/seeTasks(project=${project.name})}">
-					<button type="submit" name="submit" value="value">SEE TASKS</button>
-				</form>
+				<a th:href="'/tasks/'+${project.id}+'/seeTasks/'">SEE TASKS</a>
 			</td>
 			<td>
-				<form method="GET" th:action="@{/projects/{project}/addTask(project=${project.name})}">
-					<button type="submit" name="submit" value="value">ADD TASK</button>
-				</form>
+				<a th:href="'/tasks/'+${project.id}+'/addTask'">ADD TASK</a>
+			</td>
+			<td>
+				<a th:href="'/projects/'+${project.id}+'/addVisibility'">ADD VISIBILITY</a>
 			</td>
 		</tr>
 		</tbody>
