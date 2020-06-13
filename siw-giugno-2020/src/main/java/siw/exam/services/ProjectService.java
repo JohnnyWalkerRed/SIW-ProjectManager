@@ -10,7 +10,8 @@ import siw.exam.model.Project;
 import siw.exam.model.User;
 import siw.exam.repository.ProjectRepository;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,5 +64,19 @@ public class ProjectService {
     public Project shareProjectWithUser(Project project, User user) {
         project.addMember(user);
         return this.projectRepository.save(project);
+    }
+    @Transactional
+    public List<Project> retrieveProjectOwnedBy(User user){
+    	ArrayList<Project> lista = new ArrayList<>();
+    	Iterable<Project> i = this.projectRepository.findByOwner(user);
+    	for(Project p : i) {
+    		lista.add(p);
+    	}
+    	return lista;
+    }
+    @Transactional 
+    public Project getProject(String projectName) {
+    	Optional<Project> result = this.projectRepository.findByName(projectName);
+    	return result.orElse(null);
     }
 }
