@@ -38,6 +38,7 @@ public class ProjectController {
 	UserService userService;
 	@Autowired
 	CredentialsService credentialsService;
+	
 	@RequestMapping (value = {"/projects"}, method = RequestMethod.GET)
 	public String projects(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -92,7 +93,7 @@ public class ProjectController {
     	if (!projectBindingResult.hasErrors()) {
     		project.setOwner(loggedUser);
     		this.projectService.saveProject(project);
-    		return "redirect: /projects"; //+ project.getId();
+    		return "redirect:/projects";
     	}
     	model.addAttribute("loggedUser", loggedUser);
     	return "addProject";
