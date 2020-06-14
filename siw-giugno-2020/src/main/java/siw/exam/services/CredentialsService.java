@@ -30,6 +30,11 @@ public class CredentialsService {
 		return result.orElse(null);
 	}
 	
+	public Credentials getCredentialsByUserId(Long id) {
+		Optional<Credentials> result = this.credentialsRepository.findByUser(id);
+		return result.orElse(null);
+	}
+	
 	public Credentials saveCredentials (Credentials credentials) {
 		credentials.setRole(Credentials.DEFAULT_ROLE);
 		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));

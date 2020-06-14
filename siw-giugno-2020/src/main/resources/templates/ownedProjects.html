@@ -15,8 +15,6 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
-			<th>See Tasks</th>
-			<th>Add task</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -24,17 +22,18 @@
 			<td><a th:href="'/projects/'+${project.id}" th:text="${project.name}">...</a></td>
 			<td th:text="${project.description}">...</td>
 			<td>
-				<a th:href="'/tasks/'+${project.id}+'/seeTasks/'">SEE TASKS</a>
-			</td>
-			<td>
 				<a th:href="'/tasks/'+${project.id}+'/addTask'">ADD TASK</a>
 			</td>
 			<td>
 				<a th:href="'/projects/'+${project.id}+'/addVisibility'">ADD VISIBILITY</a>
 			</td>
+			<td>
+				<a th:href="'/projects/'+${project.id}+'/delete'">DELETE</a>
+			</td>
 		</tr>
 		</tbody>
 	</table>
+	<div><a href="/home">BACK TO HOME</a></div>
 </div>
 </body>
 </html>

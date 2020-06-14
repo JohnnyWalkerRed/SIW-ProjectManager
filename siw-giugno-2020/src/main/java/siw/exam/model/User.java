@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -123,8 +122,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", creationDate="
-				+ creationDate + ", ownedProjects=" + ownedProjects + ", visibleProjects=" + visibleProjects + "]";
+		return firstName + ", " + lastName ;
 	}
 	@PrePersist
 	protected void onPersist() {
