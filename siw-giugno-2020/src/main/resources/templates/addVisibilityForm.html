@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+<h1 th:text="'Share project ' + ${activeProject.name}"></h1>
+<form id="addVisibilityForm"
+	  th:action="@{/projects/addVisibility}"
+	  th:object="${credentials}"
+	  method="POST">
+	  
+	  <table>
+	  	<tr>
+			<td><label for="userNameInput">Username to share with</label>
+			<td><input id=userNameInput type="text" placeholder="USERNAME" required th:field="*{userName}"/></td>
+		</tr>
+		<tr>
+			<td><button type="submit">Share</button></td>
+		</tr>
+	  </table>
+</form>
+</body>
+</html>

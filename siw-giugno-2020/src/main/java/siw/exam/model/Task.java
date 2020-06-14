@@ -24,13 +24,12 @@ public class Task {
 	
 	@Column (nullable=false)
 	private String name;
-	
+	@Column
 	private String description;
-	
+	@Column
 	private LocalDate creationDate;
-	
-	 @Column(nullable = false)
-	  private boolean completed;
+	@Column(nullable = false)
+	private boolean completed;
 	
 	/*
 	* Ogni task può essere associato ad uno o più tag e ogni tag può essere
@@ -50,7 +49,7 @@ public class Task {
 	* fetch EAGER: è opportuno caricare lo user al quale è associato quel task 
 	*/
 	@OneToOne (fetch=FetchType.EAGER)
-	private User ownerTask;
+	private User owner;
 	
 	/*Un utente può scrivere uno o più commenti sotto un task
 	 * la relazione è denominata comments
@@ -59,6 +58,7 @@ public class Task {
 	 * se questo è eliminato*/
 	@OneToMany (fetch = FetchType.LAZY, cascade= {CascadeType.REMOVE})
 	private List<Comment> comments;
+	
 	
 	//costruttore no args
 	public Task() {
@@ -112,8 +112,8 @@ public class Task {
 		this.taskTag = taskTag;
 	}
 
-	public User getOwnerTask() {
-		return ownerTask;
+	public User getOwner() {
+		return owner;
 	}
 
 	public List<Comment> getComments() {
@@ -124,8 +124,8 @@ public class Task {
 		this.comments = comments;
 	}
 
-	public void setOwnerTask(User ownerTask) {
-		this.ownerTask = ownerTask;
+	public void setOwner(User ownerTask) {
+		this.owner = ownerTask;
 	}
 	
     public boolean isCompleted() {
@@ -135,7 +135,7 @@ public class Task {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
-
+    
 	//metodo toString: stampa a video le info di Task
 	@Override
 	public String toString() {

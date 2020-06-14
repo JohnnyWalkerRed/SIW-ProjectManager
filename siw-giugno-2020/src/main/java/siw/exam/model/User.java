@@ -11,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -20,45 +22,51 @@ import javax.persistence.Table;
 @Entity
 @Table (name="users")
 public class User {
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-			
+
 	@Column (nullable=false)
 	private String firstName;
-	
+
 	@Column (nullable=false)
 	private String lastName;
 	@Column
 	private LocalDate creationDate;
-	
-	
 	/*L'utente può essere proprietario di uno o più progetti e ogni progetto ha un proprietario:
-	 *la relazione è denominata owner; 
+	 *la relazione è denominata owner;
 	 *cascadeType REMOVE: qualora eliminassimo il
 	 *proprietario del progetto elimineremo anche il progetto stesso;
-	 *fetch Lazy: se vogliamo caricare un utente, non necessariamente ci interessano i progetti di cui è proprietario. 
+	 *fetch Lazy: se vogliamo caricare un utente, non necessariamente ci interessano i progetti di cui è proprietario.
 	 */
 	@OneToMany (mappedBy="owner", cascade = {CascadeType.REMOVE}, fetch=FetchType.LAZY)
 	private List <Project> ownedProjects;
-	
+
 	/*L'utente può avere visibilità su uno o più progetti e ogni progetto può essere visibile da più utenti:
-	 *la relazione è denominata members; 
-	 *fetch Lazy: se vogliamo caricare un utente, non necessariamente ci interessano i progetti di cui ha visibilità. 
+	 *la relazione è denominata members;
+	 *fetch Lazy: se vogliamo caricare un utente, non necessariamente ci interessano i progetti di cui ha visibilità.
 	 */
 	@ManyToMany (mappedBy="members", fetch=FetchType.LAZY)
 	private List <Project> visibleProjects;
-			
+
+	@OneToOne(mappedBy = "relatedUser", cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+	private Credentials credentials;
+
 	//costruttore no args
 	public User() {
-		
+
 	}
 
 	//metodi getters and setters
 
 	public Long getId() {
 		return id;
+	}
+
+	public void addVisibleProject(Project project) {
+		if(!this.visibleProjects.contains(project))
+			this.visibleProjects.add(project);
 	}
 
 	public void setId(Long id) {
@@ -104,8 +112,15 @@ public class User {
 	public void setVisibleProjects(List<Project> visibleProjects) {
 		this.visibleProjects = visibleProjects;
 	}
-	
-	//metodo toString: stampa a video un utente
+
+	public Credentials getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", creationDate="
@@ -152,8 +167,8 @@ public class User {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
+
+
+
 }
