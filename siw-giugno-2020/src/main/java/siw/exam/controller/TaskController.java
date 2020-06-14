@@ -79,6 +79,14 @@ public class TaskController {
 		this.taskService.saveTask(activeTask);
 		return "redirect:/projects/"+projectId;
 	}
+	@RequestMapping(value= {"/tasks/{taskId}/{projectId}/delete"}, method = RequestMethod.GET)
+	public String delete(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
+		Task activeTask = this.taskService.getTask(taskId);
+		Project activeProject = this.sessionData.getActiveProject();
+		this.projectService.removeTask(activeProject, activeTask);
+		this.taskService.deleteTask(activeTask);
+		return "redirect:/projects/"+projectId;
+	}
 	/*@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
 		Task task = this.taskService.getTask(taskId);
