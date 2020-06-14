@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Project Manager</title>
+</head>
+<body>
+
+<h1 th:text="'Adding owner to '+${activeTask.name}"> </h1>
+
+<div th:if="${members.size()>0}">
+	<h3> Share with:</h3>
+	<ul>
+		<li th:each="member : ${members}">
+			<div th:text="${member.userName} + ' ' + ${member.user.toString()}"><a th:href="'/tasks/'+${activeTask.id}+'/'+${member.user.id}+'/addedOwner'">SHARE</a></div>
+		</li>
+	</ul>
+	</div>

@@ -1,5 +1,6 @@
 package siw.exam.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +16,20 @@ import siw.exam.model.Task;
 import siw.exam.model.User;
 import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.TaskRepository;
+import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.TaskService;
 import siw.exam.services.UserService;
 import siw.exam.validator.TaskValidator;
 import siw.exam.controller.session.SessionData;
-
+import siw.exam.model.Credentials;
 import siw.exam.model.Project;
 
 
 @Controller
 public class TaskController {
+	@Autowired
+	CredentialsService credentialsService;
 	@Autowired 
 	ProjectService projectService;
 	@Autowired
@@ -87,15 +91,25 @@ public class TaskController {
 		this.taskService.deleteTask(activeTask);
 		return "redirect:/projects/"+projectId;
 	}
-	/*@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/tasks/{taskId}/addOwner"}, method = RequestMethod.GET)
+	public String addOwnerForm(Model model, @PathVariable Long taskId) {
+		Project activeProject = this.sessionData.getActiveProject(); 
+		List <User> members = userService.getMembers(activeProject);
+		List<Credentials> credentials = new ArrayList<>();
+		for(User u : members)
+			credentials.add(this.credentialsService.getCredentialsByUserId(u.getId()));
+		model.addAttribute("members", credentials);
+		Task activeTask = this.taskService.getTask(taskId);
+		model.addAttribute("activeTask", activeTask);
+		return "addOwnerForm";
+	}
+	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addedOwner"}, method = RequestMethod.GET)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
 		Task task = this.taskService.getTask(taskId);
 		User user = this.userService.getUser(userId);
 		this.taskService.shareTaskWithUser(user, task);
 		Project activeProject = this.sessionData.getActiveProject();
-		
-		
-		return "redirect:/projects";
-	}*/
+		return "redirect:/projects"+activeProject.getId();
+	}
 	
 }
