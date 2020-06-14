@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import siw.exam.model.Credentials;
 import siw.exam.model.Project;
 import siw.exam.model.User;
+import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+	@Autowired
+	private ProjectRepository projectRepository;
+	
     @Autowired
     private UserRepository userRepository;
 
@@ -65,5 +69,14 @@ public class UserService {
     	User activeUser = this.userRepository.findById(user.getId()).orElse(null);
     	activeUser.addVisibleProject(project);
     	this.userRepository.save(activeUser);
+    }
+    
+    @Transactional
+    public List<User> getUsersByVisibleProject(Project project){
+    	
+    	List<User> result = new ArrayList<>();
+    	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	result = activeProject.getMembers();
+    	return result;
     }
 }

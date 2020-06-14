@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import siw.exam.model.Task;
+import siw.exam.model.User;
 import siw.exam.repository.TaskRepository;
 
 import java.util.Optional;
@@ -59,5 +60,11 @@ public class TaskService {
     @Transactional
     public void deleteTask(Task task) {
         this.taskRepository.delete(task);
+    }
+    @Transactional 
+    public void shareTaskWithUser(User user, Task task) {
+    	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
+    	activeTask.setOwner(user);
+    	this.taskRepository.save(activeTask);
     }
 }

@@ -17,8 +17,10 @@ import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.TaskRepository;
 import siw.exam.services.ProjectService;
 import siw.exam.services.TaskService;
+import siw.exam.services.UserService;
 import siw.exam.validator.TaskValidator;
 import siw.exam.controller.session.SessionData;
+import siw.exam.model.Credentials;
 import siw.exam.model.Project;
 
 
@@ -36,6 +38,8 @@ public class TaskController {
 	TaskValidator taskValidator;
 	@Autowired
 	SessionData sessionData;
+	@Autowired 
+	UserService userService;
 	@RequestMapping (value = {"/tasks/{projectId}/addTask"}, method = RequestMethod.GET)
 	public String addTaskForm(Model model, @PathVariable Long projectId) {
 		model.addAttribute("taskForm", new Task());
@@ -51,16 +55,31 @@ public class TaskController {
 		taskValidator.validate(task, taskBindingResult);
 		Project activeProject = this.sessionData.getActiveProject();
 		if(!taskBindingResult.hasErrors()) {
-			/*da aggiungere la parte dell'aggiunta dell'user a cui si riferisce*/
-			activeProject.getTasks().add(task);
-			this.taskRepository.save(task);
-			this.projectRepository.save(activeProject);
-			return "redirect:/projects";
+			/*da aggiungere la parte dell'aggiunta dell'user a cui si riferisce. Attesa della vista dei membri*/
+			List<User> members = this.userService.getUsersByVisibleProject(activeProject);
+			model.addAttribute("activeProject", activeProject);
+			model.addAttribute("activeTask", task);
+			model.addAttribute("members", members);
+			model.addAttribute("credentials", new Credentials());
+			return "tasksAddOwnerForm";
 		}
 		model.addAttribute("project", activeProject);
-		return "/tasks/"+activeProject.getId()+"/addTask";
+		model.addAttribute("activeTask", task);
+		
+		
+		return "/projects";
 	}
-	
+	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
+	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
+		Task task = this.taskService.getTask(taskId);
+		User user = this.userService.getUser(userId);
+		this.taskService.shareTaskWithUser(user, task);
+		Project activeProject = this.sessionData.getActiveProject();
+		activeProject.getTasks().add(task);
+		this.taskRepository.save(task);
+		this.projectRepository.save(activeProject);
+		return "redirect: /projects";
+	}
 	@RequestMapping (value = {"/tasks/{projectId}/seeTasks"}, method=RequestMethod.GET)
 	public String seeTasks(Model model, @PathVariable Long projectId) {
 		Project activeProject = this.projectService.getProject(projectId);

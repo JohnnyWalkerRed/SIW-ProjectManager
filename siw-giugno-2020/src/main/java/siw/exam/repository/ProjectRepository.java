@@ -14,6 +14,6 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 public Optional <Project> findById(long id);	
 public Optional <Project> findByName(String name);
 public Optional <Project> findByBeginDate(LocalDate date);
-public Optional <Project> findByMembers(User member);
+public List <Project> findByMembers(User member);
 public List<Project> findByOwner(User owner);
 }
