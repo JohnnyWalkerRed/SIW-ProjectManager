@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+<h1 th:text="'Add new Comment to Task ' + ${activeTask.name}"></h1>
+<form id="newCommentForm"
+	  th:action="@{/comment/add}"
+	  th:object="${commentForm}"
+	  method="POST">
+	  
+	  <table>
+	  	<tr>
+			<td><label for="commentDescriptionInput">Comment Name</label>
+			<td><input id=commentDescriptionInput type="text" placeholder="DESCRIPTION" required th:field="*{description}"/></td>
+			<td th:if="${#fields.hasErrors('description')}" th:style="color:red"></td>
+		</tr>
+		
+		<tr>
+			<td><button type="submit">Add Comment</button></td>
+		</tr>
+	  </table>
+</form>
+</body>
+</html>

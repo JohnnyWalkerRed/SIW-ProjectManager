@@ -85,4 +85,8 @@ public class ProjectService {
     	return this.projectRepository.findByOwner(user);
 
     }
+    
+    public List <Project> retrieveProjectsSharedWith(User user){
+    	return this.projectRepository.findByMembers(user);
+    }
 }

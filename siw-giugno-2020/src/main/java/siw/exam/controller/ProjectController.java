@@ -119,4 +119,13 @@ public class ProjectController {
 			this.projectService.shareProjectWithUser(activeProject, user);
 		return "redirect:/projects";
 	}
+	
+	@RequestMapping (value= {"/shared"}, method= RequestMethod.GET)
+	public String sharedProjects(Model model) {
+		User loggedUser=sessionData.getLoggedUser();
+		List <Project> projectList= projectService.retrieveProjectsSharedWith(loggedUser);
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("projectList",projectList);
+		return "sharedProjects";
+	}
 }
