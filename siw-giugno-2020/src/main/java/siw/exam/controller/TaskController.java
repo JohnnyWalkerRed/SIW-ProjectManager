@@ -20,7 +20,7 @@ import siw.exam.services.TaskService;
 import siw.exam.services.UserService;
 import siw.exam.validator.TaskValidator;
 import siw.exam.controller.session.SessionData;
-import siw.exam.model.Credentials;
+
 import siw.exam.model.Project;
 
 
@@ -79,7 +79,7 @@ public class TaskController {
 		this.taskService.saveTask(activeTask);
 		return "redirect:/projects/"+projectId;
 	}
-	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
+	/*@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
 		Task task = this.taskService.getTask(taskId);
 		User user = this.userService.getUser(userId);
@@ -88,6 +88,6 @@ public class TaskController {
 		
 		
 		return "redirect:/projects";
-	}
+	}*/
 	
 }
