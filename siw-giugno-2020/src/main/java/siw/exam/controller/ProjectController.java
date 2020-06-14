@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +19,9 @@ import siw.exam.repository.UserRepository;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.UserService;
-import siw.exam.validator.ProjectValidator;
 
 @Controller
 public class ProjectController {
-	@Autowired 
-	ProjectValidator projectValidator;
 	@Autowired
 	SessionData sessionData;
 	@Autowired
@@ -46,27 +41,6 @@ public class ProjectController {
 		return "ownedProjects";
 	}
 	
-
-	/*Aggiunta momentanea*/
-	@RequestMapping(value = {"/projects/add"}, method=RequestMethod.GET)
-	public String createProjectForm(Model model) {
-		User loggedUser = sessionData.getLoggedUser();
-		model.addAttribute("loggedUser", loggedUser);
-		model.addAttribute("projectForm", new Project());
-		return "addProject";
-	}
-	@RequestMapping(value = {"/projects/add"}, method=RequestMethod.POST)
-	public String createProject(@Validated @ModelAttribute("projectForm") Project project, BindingResult projectBindingResult, Model model) {
-		User loggedUser = sessionData.getLoggedUser();
-		projectValidator.validate(project, projectBindingResult);
-		if(!projectBindingResult.hasErrors()) {
-			project.setOwner(loggedUser);
-			this.projectService.saveProject(project);
-			return "redirect:/projects/";
-		}
-		model.addAttribute("loggedUser", loggedUser);
-		return "addProject";
-	}
 	@RequestMapping(value = {"/projects/{projectId}/addVisibility"}, method = RequestMethod.GET)
 	private String addVisibilityForm(Model model, @PathVariable Long projectId) {
 		Project activeProject = this.projectService.getProject(projectId);
