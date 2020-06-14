@@ -57,6 +57,7 @@ public class TaskController {
 		if(!taskBindingResult.hasErrors()) {
 			/*da aggiungere la parte dell'aggiunta dell'user a cui si riferisce. Attesa della vista dei membri*/
 			List<User> members = this.userService.getUsersByVisibleProject(activeProject);
+			task.setCompleted(false);
 			model.addAttribute("activeProject", activeProject);
 			model.addAttribute("activeTask", task);
 			model.addAttribute("members", members);
@@ -71,6 +72,13 @@ public class TaskController {
 		
 		return "redirect:/projects";
 	}
+	@RequestMapping (value = {"/tasks/{taskId}/{projectId}/setCompleted"}, method = RequestMethod.GET)
+	public String setCompleted(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
+		Task activeTask = this.taskService.getTask(taskId);
+		activeTask.setCompleted(true);
+		this.taskService.saveTask(activeTask);
+		return "redirect:/projects/"+projectId;
+	}
 	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
 		Task task = this.taskService.getTask(taskId);
@@ -80,15 +88,6 @@ public class TaskController {
 		
 		
 		return "redirect:/projects";
-	}
-	@RequestMapping (value = {"/tasks/{projectId}/seeTasks"}, method=RequestMethod.GET)
-	public String seeTasks(Model model, @PathVariable Long projectId) {
-		Project activeProject = this.projectService.getProject(projectId);
-		this.sessionData.setActiveProject(activeProject);
-		List<Task> taskList = activeProject.getTasks();
-		model.addAttribute("project", activeProject);
-		model.addAttribute("taskList", taskList);
-		return "/tasks";
 	}
 	
 }

@@ -25,6 +25,9 @@
 		<li th:each ="task : ${project.tasks}">
 			<div th:text="${task.name}"></div>
 			<div th:text="${task.description}" style="color:gray"></div>
+			<div th:text="'Task completed: '+${task.completed}" style="color:gray"></div>
+			<div th:if="${project.owner.id==loggedUser.id}"><div th:if="${task.completed==false}"><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/setCompleted'">SET COMPLETED</a></div></div>
+			<div><a th:href="'/tags/'+${task.id}+'/addTag'">ADD TAG</a></div>
 		</li>
 	</ul>
 
