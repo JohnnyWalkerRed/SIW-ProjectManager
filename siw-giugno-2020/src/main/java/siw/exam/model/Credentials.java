@@ -42,7 +42,7 @@ public class Credentials {
 	  */
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="user_id", nullable=false)
-	private User relatedUser;
+	private User user;
 	
 	public Credentials() {
 		
@@ -81,11 +81,11 @@ public class Credentials {
 	}
 
 	public User getUser() {
-		return relatedUser;
+		return user;
 	}
 
 	public void setUser(User user) {
-		this.relatedUser = user;
+		this.user = user;
 	}
 
 	public static String getDefaultRole() {

@@ -17,15 +17,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import siw.exam.controller.session.SessionData;
 import siw.exam.model.Credentials;
 import siw.exam.model.Project;
-import siw.exam.model.Task;
 import siw.exam.model.User;
 import siw.exam.repository.UserRepository;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.UserService;
+import siw.exam.validator.ProjectValidator;
 
 @Controller
 public class ProjectController {
+	@Autowired
+	ProjectValidator projectValidator;
 	@Autowired
 	SessionData sessionData;
 	@Autowired
@@ -96,8 +98,6 @@ public class ProjectController {
     	return "addProject";
 
     }
-
-
 
 	@RequestMapping(value = {"/projects/{projectId}/addVisibility"}, method = RequestMethod.GET)
 	private String addVisibilityForm(Model model, @PathVariable Long projectId) {

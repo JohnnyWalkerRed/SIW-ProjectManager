@@ -12,5 +12,5 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 	public Optional <Task> findById(long id);
 	public Optional <Task> findByCreationDate(LocalDate date);
 	public Optional <Task> findByOwner (User user);
-
+	
 }

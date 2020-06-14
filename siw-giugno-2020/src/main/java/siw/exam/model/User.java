@@ -50,7 +50,7 @@ public class User {
 	@ManyToMany (mappedBy="members", fetch=FetchType.LAZY)
 	private List <Project> visibleProjects;
 
-	@OneToOne(mappedBy = "relatedUser", cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+	@OneToOne(mappedBy = "user", cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Credentials credentials;
 
 	//costruttore no args

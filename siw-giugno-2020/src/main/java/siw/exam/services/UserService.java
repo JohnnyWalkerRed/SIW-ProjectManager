@@ -36,11 +36,6 @@ public class UserService {
         Optional<User> result = this.userRepository.findById(id);
         return result.orElse(null);
     }
-    @Transactional
-    public User getUserByCredentials(Credentials credentials) {
-    	Optional<User> result = this.userRepository.findByCredentials(credentials);
-    	return result.orElse(null);
-    }
     /**
      * Metodo che salva User nel DB e restituisce lo stesso User
      * return: User
@@ -77,6 +72,13 @@ public class UserService {
     	List<User> result = new ArrayList<>();
     	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
     	result = activeProject.getMembers();
+    	return result;
+    }
+    @Transactional 
+    public List<User> getMembers(Project project){
+    	List<User> result = new ArrayList<>();
+    	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	result=activeProject.getMembers();
     	return result;
     }
 }
