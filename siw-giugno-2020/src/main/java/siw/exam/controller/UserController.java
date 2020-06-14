@@ -39,20 +39,6 @@ public class UserController {
      * @param model the Request model
      * @return the name of the target view, that in this case is "register"
      */
-    @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-    public String home(Model model) {
-    	User loggedUser = sessionData.getLoggedUser();
-    	model.addAttribute("user", loggedUser);
-        return "home";
-    }
-
-    /**
-     * This method is called when a GET request is sent by the user to URL "/users/user_id".
-     * This method prepares and dispatches the User registration view.
-     *
-     * @param model the Request model
-     * @return the name of the target view, that in this case is "register"
-     */
     @RequestMapping(value = { "/users/me" }, method = RequestMethod.GET)
     public String me(Model model) {
         User loggedUser = sessionData.getLoggedUser();

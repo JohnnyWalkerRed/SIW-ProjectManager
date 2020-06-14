@@ -8,7 +8,7 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>it.uniroma3.siw</groupId>
+	<groupId>it.uniroma3.siw.taskManager</groupId>
 	<artifactId>TaskManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TaskManager</name>
@@ -56,16 +56,6 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-    <groupId>javax.validation</groupId>
-    <artifactId>validation-api</artifactId>
-    <version>1.0.0.GA</version>
-  </dependency>
-  <dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>4.0.2.GA</version>
-  </dependency>
 	</dependencies>
 
 	<build>
