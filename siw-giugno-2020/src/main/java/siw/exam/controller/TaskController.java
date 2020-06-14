@@ -60,14 +60,16 @@ public class TaskController {
 			model.addAttribute("activeProject", activeProject);
 			model.addAttribute("activeTask", task);
 			model.addAttribute("members", members);
-			model.addAttribute("credentials", new Credentials());
-			return "tasksAddOwnerForm";
+			activeProject.getTasks().add(task);
+			this.taskRepository.save(task);
+			this.projectRepository.save(activeProject);
+			return "redirect:/projects";
 		}
 		model.addAttribute("project", activeProject);
 		model.addAttribute("activeTask", task);
 		
 		
-		return "/projects";
+		return "redirect:/projects";
 	}
 	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addOwner"}, method = RequestMethod.POST)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
@@ -75,10 +77,9 @@ public class TaskController {
 		User user = this.userService.getUser(userId);
 		this.taskService.shareTaskWithUser(user, task);
 		Project activeProject = this.sessionData.getActiveProject();
-		activeProject.getTasks().add(task);
-		this.taskRepository.save(task);
-		this.projectRepository.save(activeProject);
-		return "redirect: /projects";
+		
+		
+		return "redirect:/projects";
 	}
 	@RequestMapping (value = {"/tasks/{projectId}/seeTasks"}, method=RequestMethod.GET)
 	public String seeTasks(Model model, @PathVariable Long projectId) {

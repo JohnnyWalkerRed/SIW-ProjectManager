@@ -11,7 +11,7 @@
 <h1 th:text="${project.name}"> </h1>
 <h4 th:text="${project.description}" style="color:gray"> </h4>
 
-<div th:if="${members.size()>0">
+<div th:if="${members.size()>0}">
 	<h3> Shared with:</h3>
 	<ul>
 		<li th:each="member : ${members}">
