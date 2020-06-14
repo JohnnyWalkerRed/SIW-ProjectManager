@@ -7,27 +7,27 @@
 <title>Crea il tuo Progetto</title>
 </head>
 <body>
-<h1>Registra un nuovo utente</h1>
-<form id = "registerUserForm"
+<h1>Crea un nuovo progetto</h1>
+<form id = "registerProjectForm"
 	th:action="@{/projects/add}"
 	th:object="${projectForm}"
-	method="POST"></form>
+	method="POST">
 	
 	<table>
 		<tr>
 			<td> <label for="projectNameInput"> Project Name </label>
-			<td> <input id=projectNameInput type="text" placeholder="NAME" required th:field="*{projectForm.name}"/></td>
-			<td th:if="${#fields.hasErrors('projectForm.name')}" th:errors="*{projectForm.name}" th:style="'color:red'"></td>
+			<td> <input id=projectNameInput type="text" placeholder="NAME" required th:field="*{name}"/></td>
+			<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:style="'color:red'"></td>
 		</tr>
 		<tr>
 			<td> <label for="descriptionInput"> Description </label>
-			<td> <input id=descriptionInput placeholder="DESCRIPTION" th:field="*{projectForm.description}"/></td>
-			<td th:if="${#fields.hasErrors('projectForm.description')}" th:errors="*{projectForm.description}" th:style="'color:red'"></td>
+			<td> <input id=descriptionInput placeholder="DESCRIPTION" th:field="*{description}"/></td>
+			<td th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:style="'color:red'"></td>
 		</tr>
 		<tr>
 			<td> <button type="submit">Register</button></td>
 		</tr>
 		</table>			
-					
+		</form>			
 	</body>
 </html>
