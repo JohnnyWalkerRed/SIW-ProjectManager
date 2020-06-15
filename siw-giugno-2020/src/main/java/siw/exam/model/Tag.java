@@ -27,7 +27,7 @@ public class Tag {
 	 * La relazione è chiamata tagTask ed è mappata dal lato task dalla colonna taskTag
 	 * fetch LAZY: se si volesse ricercare un tag non è detto che si vogliano anche i task 
 	 * ad esso associati*/
-	@ManyToMany (mappedBy = "taskTag", fetch=FetchType.LAZY)
+	@ManyToMany (mappedBy = "taskTag", fetch=FetchType.EAGER)
 	private List<Task> tagTask;
 	
 	

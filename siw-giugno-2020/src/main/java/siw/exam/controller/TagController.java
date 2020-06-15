@@ -67,4 +67,17 @@ public class TagController {
 		this.taskService.addTag(activeTag, activeTask);
 		return "redirect:/projects/"+this.sessionData.getActiveProject().getId();
 	}
+	@RequestMapping (value = {"/tags/{tagId}/{projectId}/deleteTagFromProject"}, method = RequestMethod.GET)
+	public String deleteTagFromProject(Model model, @PathVariable Long tagId, @PathVariable Long projectId)
+	{
+		Tag activeTag = this.tagService.getTag(tagId);
+		Project activeProject = this.projectService.getProject(projectId);
+		this.projectService.removeTag(activeProject, activeTag);
+		for(Task t : activeProject.getTasks())
+		{
+			this.taskService.removeTag(activeTag, t);
+		}
+		this.tagService.deleteTag(activeTag);
+		return "redirect:/projects/"+projectId;
+	}
 }

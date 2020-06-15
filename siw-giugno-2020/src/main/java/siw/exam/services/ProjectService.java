@@ -102,4 +102,10 @@ public class ProjectService {
     	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
     	activeProject.getTasks().remove(task);
     }
+    @Transactional 
+    public void removeTag(Project project, Tag tag) {
+    	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	activeProject.getTags().remove(tag);
+    	this.projectRepository.save(activeProject);
+    }
 }

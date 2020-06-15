@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import siw.exam.model.Project;
 import siw.exam.model.Tag;
 import siw.exam.model.Task;
-import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.TagRepository;
 
 @Service
@@ -50,5 +49,9 @@ public class TagService {
 	public List<Tag> getTags(Project project){
 		Project activeProject = this.projectService.getProject(project.getId());
 		return activeProject.getTags();
+	}
+	@Transactional
+	public void removeTag(Tag tag) {
+		this.tagRepository.delete(tag);
 	}
 }

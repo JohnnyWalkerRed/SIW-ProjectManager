@@ -18,7 +18,6 @@ import siw.exam.controller.session.SessionData;
 import siw.exam.model.Credentials;
 import siw.exam.model.Project;
 import siw.exam.model.User;
-import siw.exam.repository.UserRepository;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.TagService;
@@ -35,8 +34,6 @@ public class ProjectController {
 	private SessionData sessionData;
 	@Autowired
 	private ProjectService projectService;
-	@Autowired
-	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -70,7 +67,7 @@ public class ProjectController {
 		List <User> members = userService.getMembers(project);
 		if (!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))
 			return "redirect:/projects";
-
+		model.addAttribute("tasks", project.getTasks());
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("project", project);
 		model.addAttribute("members", members);
@@ -132,5 +129,11 @@ public class ProjectController {
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("projectList",projectList);
 		return "sharedProjects";
+	}
+	@RequestMapping (value= {"/projects/{projectId}/delete"}, method = RequestMethod.GET)
+	public String deleteProject(Model model, @PathVariable Long projectId) {
+		Project activeProject = this.projectService.getProject(projectId);
+		this.projectService.deleteProject(activeProject);
+		return "redirect:/projects";
 	}
 }

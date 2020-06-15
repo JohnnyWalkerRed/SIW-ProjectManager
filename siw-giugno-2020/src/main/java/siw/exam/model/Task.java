@@ -40,7 +40,7 @@ public class Task {
 	* tag non associati ad alcun task verranno eliminati all'eliminazione
 	* del progetto
 	  */
-	@ManyToMany (fetch=FetchType.LAZY)
+	@ManyToMany (fetch=FetchType.EAGER)
 	private List <Tag> taskTag;
 	
 	/*

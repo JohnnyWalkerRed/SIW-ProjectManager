@@ -15,7 +15,6 @@
 		<tr>
 			<th>Name</th>
 			<th>Description</th>
-			<th>See Tasks</th>
 			<th>Add comment</th>
 		</tr>
 		</thead>
@@ -23,10 +22,6 @@
 		<tr th:each = "project : ${projectList}">
 			<td><a th:href="'/projects/'+${project.id}" th:text="${project.name}">...</a></td>
 			<td th:text="${project.description}">...</td>
-			<td>
-				<a th:href="'/tasks/'+${project.id}+'/seeTasks/'">SEE TASKS</a>
-			</td>
-			
 		</tr>
 		</tbody>
 	</table>

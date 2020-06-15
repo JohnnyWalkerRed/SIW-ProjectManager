@@ -74,4 +74,10 @@ public class TaskService {
     	activeTask.getTaskTag().add(tag);
     	this.taskRepository.save(activeTask);
     }
+    @Transactional
+    public void removeTag(Tag tag, Task task) {
+    	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
+    	activeTask.getTaskTag().remove(tag);
+    	this.taskRepository.save(activeTask);
+    }
 }
