@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import siw.exam.model.Project;
+import siw.exam.model.Tag;
 import siw.exam.model.Task;
 import siw.exam.model.User;
 import siw.exam.repository.ProjectRepository;
@@ -90,5 +91,11 @@ public class ProjectService {
     public void removeTask(Project project, Task task) {
     	project.getTasks().remove(task);
     	this.projectRepository.save(project);
+    }
+    @Transactional 
+    public void addTag(Project project, Tag tag) {
+    	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	activeProject.getTags().add(tag);
+    	this.projectRepository.save(activeProject);
     }
 }

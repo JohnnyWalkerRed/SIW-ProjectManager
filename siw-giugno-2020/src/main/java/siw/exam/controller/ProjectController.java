@@ -21,23 +21,26 @@ import siw.exam.model.User;
 import siw.exam.repository.UserRepository;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
+import siw.exam.services.TagService;
 import siw.exam.services.UserService;
 import siw.exam.validator.ProjectValidator;
 
 @Controller
 public class ProjectController {
 	@Autowired
-	ProjectValidator projectValidator;
+	private TagService tagService;
 	@Autowired
-	SessionData sessionData;
+	private ProjectValidator projectValidator;
 	@Autowired
-	ProjectService projectService;
+	private SessionData sessionData;
 	@Autowired
-	UserRepository userRepository;
+	private ProjectService projectService;
 	@Autowired
-	UserService userService;
+	private UserRepository userRepository;
 	@Autowired
-	CredentialsService credentialsService;
+	private UserService userService;
+	@Autowired
+	private CredentialsService credentialsService;
 	
 	@RequestMapping (value = {"/projects"}, method = RequestMethod.GET)
 	public String projects(Model model) {
@@ -71,6 +74,7 @@ public class ProjectController {
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("project", project);
 		model.addAttribute("members", members);
+		model.addAttribute("tags", this.tagService.getTags(project));
 		this.sessionData.setActiveProject(project);
 		return "project";
 	}

@@ -18,7 +18,16 @@
 			<div th:text="${member.firstName} + ' ' + ${member.lastName}"> </div>
 		</li>
 	</ul>
-	</div>
+</div>
+
+<div th:if="${tags.size()>0}">
+	<h3> Tags:</h3>
+	<ul>
+		<li th:each="tag : ${tags}">
+			<div th:text="${tag.name} + ': ' + ${tag.description}+'---'+${tag.color}"> </div>
+		</li>
+	</ul>
+</div>
 	
 	<h3>Tasks</h3>
 	<ul>
@@ -27,7 +36,8 @@
 			<div th:text="${task.description}" style="color:gray"></div>
 			<div th:text="'Task completed: '+${task.completed}" style="color:gray"></div>
 			<div th:if="${project.owner.id==loggedUser.id}"><div th:if="${task.completed==false}"><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/setCompleted'">SET COMPLETED</a></div></div>
-			<div><a th:href="'/tags/'+${task.id}+'/addTag'">ADD TAG</a></div>
+			<div th:if="${task.owner!=null}"><div th:if="${task.owner.id==loggedUser.id}"><div th:if="${task.completed==false}"><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/setCompleted'">SET COMPLETED</a></div></div></div>
+			<div><a th:href="'/tags/tasks/'+${task.id}+'/addTag'">ADD TAG</a></div>
 			<div><a th:href="'/tasks/'+${task.id}+'/addOwner'">ADD OWNER</a></div>
 			<div><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/delete'">DELETE</a></div>
 		</li>

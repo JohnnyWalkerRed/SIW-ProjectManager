@@ -1,16 +1,22 @@
 package siw.exam.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import siw.exam.model.Project;
 import siw.exam.model.Tag;
+import siw.exam.model.Task;
+import siw.exam.repository.ProjectRepository;
 import siw.exam.repository.TagRepository;
 
 @Service
 public class TagService {
+	@Autowired
+	private ProjectService projectService;
 	@Autowired
 	private TagRepository tagRepository;
 	@Transactional
@@ -33,5 +39,16 @@ public class TagService {
 	public void deleteTag(Tag tag)
 	{
 		this.tagRepository.delete(tag);
+	}
+	@Transactional
+	public void addTask(Tag tag, Task task) {
+		Tag activeTag = this.tagRepository.findById(tag.getId()).orElse(null);
+		activeTag.getTagTask().add(task);
+		this.tagRepository.save(activeTag);
+	}
+	@Transactional
+	public List<Tag> getTags(Project project){
+		Project activeProject = this.projectService.getProject(project.getId());
+		return activeProject.getTags();
 	}
 }
