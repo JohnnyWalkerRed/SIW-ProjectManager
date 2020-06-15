@@ -51,7 +51,7 @@ public class SessionData {
 	public void setActiveTask(Task task) {
 		this.activeTask=task;
 	}
-	public Task getActiveTask(Task task) {
+	public Task getActiveTask() {
 		return this.activeTask;
 	}
 }

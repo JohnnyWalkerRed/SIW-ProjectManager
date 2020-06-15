@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import siw.exam.model.Comment;
 import siw.exam.model.Tag;
 import siw.exam.model.Task;
 import siw.exam.model.User;
@@ -78,6 +79,19 @@ public class TaskService {
     public void removeTag(Tag tag, Task task) {
     	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
     	activeTask.getTaskTag().remove(tag);
+    	this.taskRepository.save(activeTask);
+    }
+    
+    @Transactional
+    public void addComment(Comment comment, Task task) {
+    	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
+    	activeTask.getComments().add(comment);
+    	this.taskRepository.save(activeTask);
+    }
+    @Transactional
+    public void removeComment(Comment comment, Task task) {
+    	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
+    	activeTask.getComments().remove(comment);
     	this.taskRepository.save(activeTask);
     }
 }

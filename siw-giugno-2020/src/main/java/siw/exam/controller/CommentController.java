@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import siw.exam.controller.session.SessionData;
 import siw.exam.model.Comment;
-import siw.exam.model.Project;
+
 import siw.exam.model.Task;
-import siw.exam.model.User;
+
 import siw.exam.services.CommentService;
 import siw.exam.services.TaskService;
 import siw.exam.services.UserService;
@@ -61,15 +61,14 @@ public class CommentController {
 						  BindingResult commentBindingResult, 
 						  Model model){
 		commentValidator.validate(comment, commentBindingResult);
-		
+		Task activeTask = sessionData.getActiveTask();
 		if(!commentBindingResult.hasErrors()) {
-			Task activeTask = sessionData.getActiveTask();
 			commentService.saveComment(comment);
-			taskService.saveTask(activeTask);
-			List <Comment> commentList= activeTask.getComments(); 					
+			taskService.addComment(comment, activeTask);
+			List <Comment> commentList = commentService.getComments(activeTask);			
 			model.addAttribute("activeTask", activeTask);
 			model.addAttribute("commentList",commentList);
-			
+						
 			return "comments";
 		}
 				
