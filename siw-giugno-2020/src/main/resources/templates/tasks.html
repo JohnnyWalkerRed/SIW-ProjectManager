@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+<h1 th:text="'Tasks of Project ' + ${project.name}"></h1>
+<div>
+	<table>
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>SEE COMMENTS</th>
+			
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each = "task : ${taskList}">
+			<td><a th:href="'/tasks/'+${task.id}" th:text="${task.name}">...</a></td>
+			<td th:text="${task.description}">...</td>
+			
+			<td>
+				<a th:href="'/tasks/'+${task.id}+'/seeComments'">SEE COMMENTS</a>
+			</td>
+			<td>
+				<a th:href="'/tasks/'+${task.id}+'/addComment'">ADD COMMENT</a>
+			</td>
+						
+			<td>
+				<a th:href="'/tags/'+${task.id}+'/addTag'">ADD TAG</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>

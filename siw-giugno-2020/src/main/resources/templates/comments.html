@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+<h1 th:text="'Comments of Task ' + ${activeTask.name}"></h1>
+<div>
+	<table>
+		<thead>
+		<tr>
+			<th>Description</th>
+			
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each = "comment : ${commentList}">
+			<td th:text="${comment.description}">...</td>
+						
+		</tr>
+		</tbody>
+		</table>
+	
+</div>
+</body>
+</html>
