@@ -136,4 +136,11 @@ public class ProjectController {
 		this.projectService.deleteProject(activeProject);
 		return "redirect:/projects";
 	}
+	@RequestMapping (value = {"/projects/{userId}/{projectId}/deleteUserFromProject"}, method = RequestMethod.GET)
+	public String unshareProject(Model model, @PathVariable Long userId, @PathVariable Long projectId) {
+		User activeUser = this.userService.getUser(userId);
+		Project activeProject = this.projectService.getProject(projectId);
+		this.projectService.unshareProject(activeProject, activeUser);
+		return "redirect:/projects/"+projectId;
+	}
 }

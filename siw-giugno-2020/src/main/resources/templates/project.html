@@ -16,6 +16,7 @@
 	<ul>
 		<li th:each="member : ${members}">
 			<div th:text="${member.firstName} + ' ' + ${member.lastName}"> </div>
+			<div th:if="${project.owner.id==loggedUser.id}"><a th:href="'/projects/'+${member.id}+'/'+${project.id}+'/deleteUserFromProject'">UN-SHARE</a></div>
 		</li>
 	</ul>
 </div>

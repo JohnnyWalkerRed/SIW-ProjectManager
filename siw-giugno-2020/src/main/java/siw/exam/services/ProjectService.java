@@ -108,4 +108,10 @@ public class ProjectService {
     	activeProject.getTags().remove(tag);
     	this.projectRepository.save(activeProject);
     }
+    @Transactional
+    public void unshareProject(Project project, User user) {
+    	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
+    	activeProject.getMembers().remove(user);
+    	this.projectRepository.save(activeProject);
+    }
 }
