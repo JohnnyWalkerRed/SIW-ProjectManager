@@ -96,12 +96,15 @@ public class TaskController {
 		Project activeProject = this.sessionData.getActiveProject(); 
 		List <User> members = userService.getMembers(activeProject);
 		List<Credentials> credentials = new ArrayList<>();
+		
 		for(User u : members)
-			credentials.add(this.credentialsService.getCredentialsByUserId(u.getId()));
+			credentials.add(this.credentialsService.getCredentialsByUser(u));
+		
 		model.addAttribute("members", credentials);
 		Task activeTask = this.taskService.getTask(taskId);
 		model.addAttribute("activeTask", activeTask);
-		return "addOwnerForm";
+		model.addAttribute("activeProject", activeProject);
+		return "tasksAddOwnerForm";
 	}
 	@RequestMapping (value = {"/tasks/{taskId}/{userId}/addedOwner"}, method = RequestMethod.GET)
 	public String addOwner(Model model, @PathVariable Long taskId, @PathVariable Long userId) {
@@ -109,7 +112,7 @@ public class TaskController {
 		User user = this.userService.getUser(userId);
 		this.taskService.shareTaskWithUser(user, task);
 		Project activeProject = this.sessionData.getActiveProject();
-		return "redirect:/projects"+activeProject.getId();
+		return "redirect:/projects/"+activeProject.getId();
 	}
 	
 }

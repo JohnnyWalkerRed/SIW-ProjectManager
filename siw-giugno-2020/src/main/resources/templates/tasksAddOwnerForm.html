@@ -18,10 +18,10 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr th:each = "user : ${members}">
-			<td th:text="${user.name}">...</td>
+		<tr th:each = "member : ${members}">
+			<td th:text="${member.userName}">...</td>
 			<td>
-				<a th:href="'/tasks/'+${activeTask.id}+'/'+${user.id}+'/addOwner'" th:text="'Share task '+${activeTask.id}+' to this user'">...</a>
+				<a th:href="'/tasks/'+${activeTask.id}+'/'+${member.user.id}+'/addedOwner'" th:text="'Share task '+${activeTask.name}+' to this user'">...</a>
 			</td>
 		</tr>
 		</tbody>

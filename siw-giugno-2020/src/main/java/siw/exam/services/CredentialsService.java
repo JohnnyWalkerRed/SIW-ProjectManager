@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import siw.exam.model.Credentials;
+import siw.exam.model.User;
 import siw.exam.repository.CredentialsRepository;
 
 @Service
@@ -30,8 +31,8 @@ public class CredentialsService {
 		return result.orElse(null);
 	}
 	
-	public Credentials getCredentialsByUserId(Long id) {
-		Optional<Credentials> result = this.credentialsRepository.findByUser(id);
+	public Credentials getCredentialsByUser(User user) {
+		Optional<Credentials> result = this.credentialsRepository.findByUser(user);
 		return result.orElse(null);
 	}
 	
