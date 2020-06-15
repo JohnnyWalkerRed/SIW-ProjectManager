@@ -41,7 +41,7 @@ public class ProjectController {
 	private UserService userService;
 	@Autowired
 	private CredentialsService credentialsService;
-	
+
 	@RequestMapping (value = {"/projects"}, method = RequestMethod.GET)
 	public String projects(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -124,10 +124,13 @@ public class ProjectController {
 			this.projectService.shareProjectWithUser(activeProject, user);
 		return "redirect:/projects";
 	}
-	@RequestMapping(value = {"/projects/{projectId}/delete"}, method = RequestMethod.GET)
-	private String deleteProject(Model model, @PathVariable Long projectId) {
-		Project activeProject = this.projectService.getProject(projectId);
-		this.projectService.deleteProject(activeProject);
-		return "redirect:/projects";
+
+	@RequestMapping (value= {"/shared"}, method= RequestMethod.GET)
+	public String sharedProjects(Model model) {
+		User loggedUser=sessionData.getLoggedUser();
+		List <Project> projectList= projectService.retrieveProjectsSharedWith(loggedUser);
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("projectList",projectList);
+		return "sharedProjects";
 	}
 }

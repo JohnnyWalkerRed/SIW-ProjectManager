@@ -82,17 +82,16 @@ public class ProjectService {
     	Optional<Project> result = this.projectRepository.findByName(projectName);
     	return result.orElse(null);
     }
-    @Transactional
+
     public List <Project> retrieveProjectsOwnedBy(User user){
     	return this.projectRepository.findByOwner(user);
 
     }
-    @Transactional
-    public void removeTask(Project project, Task task) {
-    	project.getTasks().remove(task);
-    	this.projectRepository.save(project);
+
+    public List <Project> retrieveProjectsSharedWith(User user){
+    	return this.projectRepository.findByMembers(user);
     }
-    @Transactional 
+    @Transactional
     public void addTag(Project project, Tag tag) {
     	Project activeProject = this.projectRepository.findById(project.getId()).orElse(null);
     	activeProject.getTags().add(tag);
