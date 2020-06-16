@@ -94,11 +94,4 @@ public class TaskService {
     	activeTask.getComments().remove(comment);
     	this.taskRepository.save(activeTask);
     }
-    @Transactional
-    public void removeOwner(Task task, User user) {
-    	Task activeTask = this.taskRepository.findById(task.getId()).orElse(null);
-    	if(activeTask.getOwner().equals(user))
-    		activeTask.setOwner(null);
-    	this.taskRepository.save(activeTask);
-    }
 }
