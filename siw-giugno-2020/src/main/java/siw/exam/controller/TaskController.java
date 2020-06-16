@@ -92,6 +92,8 @@ public class TaskController {
 		/*autenticazione dell'utente richiedente. La modifica può essere effettuata solo dall'owner del project o del task*/
 		if(!activeProject.getOwner().equals(loggedUser) && !activeTask.getOwner().equals(loggedUser))
 			return "redirect:/home";
+		else if(!activeProject.getTasks().contains(activeTask))
+			return "redirect:/home";
 		else {
 			/*update dei dati del task*/
 			activeTask.setCompleted(true);
