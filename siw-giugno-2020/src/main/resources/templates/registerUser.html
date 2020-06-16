@@ -5,17 +5,11 @@
 <head>
 <title>Project Manager</title>
 <style>
-body{
-	background-color: powderblue;
-	text-align: center;
-}
-h1{
-	color: blue;
-}
 </style>
 </head>
 <body>
 <h1>Register new User</h1>
+<div>
 <form id="registerUserForm"
 th:action="@{/users/register}"
 method="POST">
@@ -50,5 +44,6 @@ method="POST">
 </table>
 
 </form>
+</div>
 </body>
 </html>

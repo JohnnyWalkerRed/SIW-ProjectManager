@@ -23,7 +23,7 @@
 			<td th:text="${tag.description}">...</td>
 			<td th:text="${tag.color}">...</td>
 			<td>
-				<a th:href="'/tags/'+${activeTask.id}+'/'+${tag.id}+'/addTag'" th:text="'Add to task '+${activeTask.name}+' this tag'">...</a>
+				<a th:href="'/tags/'+${activeTask.id}+'/'+${tag.id}+'/addTag/'+${activeProject.id}" th:text="'Add to task '+${activeTask.name}+' this tag'">...</a>
 			</td>
 		</tr>
 		</tbody>

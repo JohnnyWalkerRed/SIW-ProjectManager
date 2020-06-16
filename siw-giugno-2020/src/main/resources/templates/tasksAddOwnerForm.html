@@ -21,7 +21,7 @@
 		<tr th:each = "member : ${members}">
 			<td th:text="${member.userName}">...</td>
 			<td>
-				<a th:href="'/tasks/'+${activeTask.id}+'/'+${member.user.id}+'/addedOwner'" th:text="'Share task '+${activeTask.name}+' to this user'">...</a>
+				<a th:href="'/tasks/'+${activeTask.id}+'/'+${member.user.id}+'/'+${activeProject.id}+'/addedOwner'" th:text="'Share task '+${activeTask.name}+' to this user'">...</a>
 			</td>
 		</tr>
 		</tbody>
