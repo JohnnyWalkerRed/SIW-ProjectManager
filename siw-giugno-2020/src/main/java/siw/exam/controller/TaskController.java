@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import siw.exam.model.Task;
 import siw.exam.model.User;
-import siw.exam.repository.ProjectRepository;
-import siw.exam.repository.TaskRepository;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.TaskService;
@@ -32,10 +30,6 @@ public class TaskController {
 	CredentialsService credentialsService;
 	@Autowired 
 	ProjectService projectService;
-	@Autowired
-	ProjectRepository projectRepository;
-	@Autowired
-	TaskRepository taskRepository;
 	@Autowired 
 	TaskService taskService;
 	@Autowired
@@ -66,8 +60,8 @@ public class TaskController {
 			model.addAttribute("activeTask", task);
 			model.addAttribute("members", members);
 			activeProject.getTasks().add(task);
-			this.taskRepository.save(task);
-			this.projectRepository.save(activeProject);
+			this.taskService.saveTask(task);
+			this.projectService.saveProject(activeProject);
 			return "redirect:/projects";
 		}
 		model.addAttribute("project", activeProject);
