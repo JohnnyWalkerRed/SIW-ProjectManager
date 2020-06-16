@@ -45,12 +45,9 @@
 				</div> 
 			</div>
 			<div th:if="${task.owner!=null}"><div th:if="${task.owner.id==loggedUser.id}"><div th:if="${task.completed==false}"><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/setCompleted'">SET COMPLETED</a></div></div></div>
-			<div><a th:href="'/tasks/'+${task.id}+'/seeComments'">SEE COMMENTS</a></div>
-			<div>
-				<a th:href="'/tasks/'+${task.id}+'/addComment'">ADD COMMENT</a>
-			</div>
+			
 			<div><a th:href="'/tags/tasks/'+${task.id}+'/addTag'">ADD TAG</a></div>
-			<div th:if="${project.owner.id==loggedUser.id}"><div><a th:href="'/tasks/'+${task.id}+'/addOwner'">ADD OWNER</a></div></div>
+			<div><a th:href="'/tasks/'+${task.id}+'/addOwner'">ADD OWNER</a></div>
 			<div><a th:href="'/tasks/'+${task.id}+'/'+${project.id}+'/delete'">DELETE</a></div>
 		</li>
 	</ul>
