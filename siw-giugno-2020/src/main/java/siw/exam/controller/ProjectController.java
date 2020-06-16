@@ -194,4 +194,21 @@ public class ProjectController {
 			return "redirect:/projects/"+projectId;
 		}
 	}
+	@RequestMapping (value= {"/project/{projectId}/updateProject"}, method = RequestMethod.GET)
+	public String updateProject(Model model, @PathVariable Long projectId) {
+		Project activeProject = this.projectService.getProject(projectId);
+		model.addAttribute("project", activeProject);
+		return "updateProject";
+	}
+	@RequestMapping (value= {"/project/updateProject"}, method = RequestMethod.POST)
+	public String updateProject(Model model, @Validated @ModelAttribute("project")Project project, 
+								BindingResult projectBindingResult){
+		
+		projectValidator.validate(project, projectBindingResult);
+		if (!projectBindingResult.hasErrors()) {
+		projectService.saveProject(project);
+		return "redirect:/projects/";
+		}
+		return "redirect:/projects/";
+	}
 }

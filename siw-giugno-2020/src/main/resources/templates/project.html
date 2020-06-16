@@ -10,7 +10,7 @@
 
 <h1 th:text="${project.name}"> </h1>
 <h4 th:text="${project.description}" style="color:gray"> </h4>
-
+<div><a th:href="'/project/'+${project.id}+'/updateProject'">UPDATE PROJECT</a></div>
 <div th:if="${members.size()>0}">
 	<h3> Shared with:</h3>
 	<ul>
