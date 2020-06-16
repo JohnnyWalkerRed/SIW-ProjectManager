@@ -1,3 +1,4 @@
+
 package siw.exam.controller;
 
 import java.util.List;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import siw.exam.controller.session.SessionData;
 import siw.exam.model.Credentials;
 import siw.exam.model.Project;
+import siw.exam.model.Task;
 import siw.exam.model.User;
 import siw.exam.services.CredentialsService;
 import siw.exam.services.ProjectService;
 import siw.exam.services.TagService;
+import siw.exam.services.TaskService;
 import siw.exam.services.UserService;
 import siw.exam.validator.ProjectValidator;
 
@@ -36,6 +39,8 @@ public class ProjectController {
 	private ProjectService projectService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TaskService taskService;
 	@Autowired
 	private CredentialsService credentialsService;
 
@@ -140,6 +145,10 @@ public class ProjectController {
 	public String unshareProject(Model model, @PathVariable Long userId, @PathVariable Long projectId) {
 		User activeUser = this.userService.getUser(userId);
 		Project activeProject = this.projectService.getProject(projectId);
+		List<Task> tasks = activeProject.getTasks();
+		for(Task t : tasks) {
+			this.taskService.removeOwner(t, activeUser);
+		}
 		this.projectService.unshareProject(activeProject, activeUser);
 		return "redirect:/projects/"+projectId;
 	}
