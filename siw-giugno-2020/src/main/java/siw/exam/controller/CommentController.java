@@ -38,7 +38,7 @@ public class CommentController {
 	@Autowired
 	CommentService commentService;
 	
-	@RequestMapping (value = {"/tasks/{taskId}/seeComments"}, method = RequestMethod.GET)
+	@RequestMapping (value = {"/comments/{taskId}/seeComments"}, method = RequestMethod.GET)
 	public String seeCommentTask(Model model, @PathVariable Long taskId) {
 		Task activeTask = this.taskService.getTask(taskId);
 		this.sessionData.setActiveTask(activeTask);
@@ -48,7 +48,7 @@ public class CommentController {
 		return "comments";
 	}
 	
-	@RequestMapping (value = {"/tasks/{taskId}/addComment"}, method = RequestMethod.GET)
+	@RequestMapping (value = {"/comments/{taskId}/addComment"}, method = RequestMethod.GET)
 	public String addCommentTask(Model model, @PathVariable Long taskId) {
 		model.addAttribute("commentForm", new Comment());
 		Task activeTask = this.taskService.getTask(taskId);
