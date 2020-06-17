@@ -197,16 +197,19 @@ public class ProjectController {
 	@RequestMapping (value= {"/project/{projectId}/updateProject"}, method = RequestMethod.GET)
 	public String updateProject(Model model, @PathVariable Long projectId) {
 		Project activeProject = this.projectService.getProject(projectId);
+		sessionData.setActiveProject(activeProject);
 		model.addAttribute("project", activeProject);
 		return "updateProject";
 	}
 	@RequestMapping (value= {"/project/updateProject"}, method = RequestMethod.POST)
 	public String updateProject(Model model, @Validated @ModelAttribute("project")Project project, 
 								BindingResult projectBindingResult){
-		
+		Project activeProject = sessionData.getActiveProject();
 		projectValidator.validate(project, projectBindingResult);
 		if (!projectBindingResult.hasErrors()) {
-		projectService.saveProject(project);
+		activeProject.setName(project.getName());
+		activeProject.setDescription(project.getDescription());
+		projectService.saveProject(activeProject);
 		return "redirect:/projects/";
 		}
 		return "redirect:/projects/";
