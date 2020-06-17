@@ -123,4 +123,36 @@ public class TagController {
 			return "redirect:/projects/"+projectId;
 		}
 	}
+	@RequestMapping(value= {"/tags/{tagId}/{projectId}/updateTag"}, method=RequestMethod.GET)
+	public String updateTagForm(Model model, @PathVariable Long tagId, @PathVariable Long projectId) {
+		Tag activeTag = this.tagService.getTag(tagId);
+		Project activeProject = this.projectService.getProject(projectId);
+		User loggedUser = this.sessionData.getLoggedUser();
+		/*controllo autenticazione, solo owner può rimuovere il tag*/
+		if(!activeProject.getOwner().equals(loggedUser))
+			return "redirect:/home";
+		else {
+			this.sessionData.setActiveProject(activeProject);
+			this.sessionData.setActiveTag(activeTag);
+			model.addAttribute("activeTag", activeTag);
+			return "updateTagForm";
+		}
+	}
+	@RequestMapping(value= {"/tags/updateTag"}, method = RequestMethod.POST)
+	public String updateTag(Model model, 
+							@Validated @ModelAttribute("activeTag") Tag activeTag, 
+							BindingResult tagBindingResult) {
+		this.tagValidator.validate(activeTag, tagBindingResult);
+		Tag sessionTag = this.sessionData.getActiveTag();
+		Project sessionProject = this.sessionData.getActiveProject();
+		if(!tagBindingResult.hasErrors()) {
+			sessionTag.setName(activeTag.getName());
+			sessionTag.setColor(activeTag.getColor());
+			sessionTag.setDescription(activeTag.getDescription());
+			this.tagService.saveTag(sessionTag);
+			return "redirect:/projects/"+sessionProject.getId();
+		}
+			
+		return "redirect:/tags/"+sessionTag.getId()+"/"+sessionProject.getId()+"/updateTag";
+	}
 }

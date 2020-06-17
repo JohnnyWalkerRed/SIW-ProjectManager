@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+
+<h1 th:text="'Update Tag '+${activeTag.name}"></h1>
+
+<form id="updateTag"
+	  th:action="@{/tags/updateTag}"
+	  method="POST">
+
+
+<table>
+		<tr>	
+			<td> <label for="nameInput"> Name </label>
+			<td> <input id=nameInput type="text" placeholder="NAME" th:field="*{activeTag.name}"/></td>
+			<td th:if="${#fields.hasErrors('activeTag.name')}" th:errors="${activeTag.name}" th:style="'color:red'"></td>
+		</tr>
+
+		<tr>
+			<td> <label for="descriptionInput"> Description </label>
+			<td> <input id=descriptionInput placeholder="DESCRIPTION" th:field="*{activeTag.description}"/></td>
+			<td th:if="${#fields.hasErrors('activeTag.description')}" th:errors="${activeTag.description}" th:style="'color:red'"></td>
+		</tr>
+		
+		<tr>
+			<td> <label for="colorInput"> Color </label>
+			<td> <input id=colorInput placeholder="COLOR" th:field="*{activeTag.color}"/></td>
+			<td th:if="${#fields.hasErrors('activeTag.color')}" th:errors="${activeTag.color}" th:style="'color:red'"></td>
+		</tr>
+		
+		<tr>
+			<td> <button type="submit">Update</button></td>
+		</tr>
+		
+</table>
+		
+</form>
+</body>
+</html>
