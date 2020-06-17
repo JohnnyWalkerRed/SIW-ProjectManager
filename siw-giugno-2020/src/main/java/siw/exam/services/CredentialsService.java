@@ -1,5 +1,7 @@
 package siw.exam.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -40,6 +42,20 @@ public class CredentialsService {
 		credentials.setRole(Credentials.DEFAULT_ROLE);
 		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		return this.credentialsRepository.save(credentials);
+	}
+
+	public List<Credentials> getAllCredentials() {
+		List<Credentials> result = new ArrayList<>();
+		Iterable<Credentials> i = this.credentialsRepository.findAll();
+		for(Credentials c : i)
+			result.add(c);
+		return result;
+	}
+
+	public void deleteCredentials(String username) {
+		Credentials target = this.credentialsRepository.findByUserName(username).orElse(null);
+		this.credentialsRepository.delete(target);
+		
 	}
 	
 }

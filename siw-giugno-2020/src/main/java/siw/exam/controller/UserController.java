@@ -1,6 +1,8 @@
 package siw.exam.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -105,5 +107,17 @@ public class UserController {
     	}
     	return "redirect:/users/"+loggedUser.getId()+"/update";
     }
-
+	@RequestMapping(value = {"/admin/users"}, method = RequestMethod.GET)
+	public String userList(Model model) {
+		User loggedUser = sessionData.getLoggedUser();
+		List<Credentials> allCredentials = this.credentialsService.getAllCredentials();
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("credentialsList", allCredentials);
+		return "allUsers";
+	}
+	@RequestMapping(value= {"admin/users/{username}/delete"}, method=RequestMethod.POST)
+	public String removeUser(Model model, @PathVariable String username) {
+		this.credentialsService.deleteCredentials(username);
+		return "redirect:/admin/users";
+	}
 }
