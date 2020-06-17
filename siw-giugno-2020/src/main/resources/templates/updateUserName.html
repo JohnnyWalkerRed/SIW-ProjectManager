@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Project Manager</title>
+</head>
+<body>
+
+<h1 th:text="'Update Username ' + ${credentials.userName}"></h1>
+
+<form id="updateUsername"
+	  th:action="@{/users/modifyUserName}"
+	  th:object="${credentials}"
+	  method="POST">
+
+
+<table>
+		<tr>
+			<td> <input id=credentialsId type="hidden" placeholder="ID" th:field ="*{id}"/> </td>
+		</tr>
+		<tr>
+		<td><label for="userNameInput">Username</label></td>
+		<td><input id=userNameInput type="text" placeholder="USERNAME" required th:field="${credentials.userName}"/></td>
+		
+	</tr>
+	<tr>
+		<td><label for="passwordInput">Password</label></td>
+		<td><input id="passwordInput" type="hidden" placeholder="PASSWORD" required th:field="${credentials.password}"/></td>
+		
+	</tr>
+		<tr>
+			<td> <button type="submit">Update</button></td>
+		</tr>
+		
+		
+</table>
+		
+</form>
+</body>
+</html>

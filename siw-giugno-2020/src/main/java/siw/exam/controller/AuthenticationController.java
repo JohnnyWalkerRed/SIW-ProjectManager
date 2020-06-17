@@ -59,4 +59,23 @@ public class AuthenticationController {
 		}
 		return "registerUser";
 	}
+	@RequestMapping (value= {"/users/{credentialsId}/updateUserName"}, method = RequestMethod.GET)
+	public String updateUserName(Model model, @PathVariable Long credentialsId) {
+		Credentials credentials = this.credentialsService.getCredentials(credentialsId);
+		sessionData.setLoggedCredentials(credentials);
+		model.addAttribute("credentials", credentials);
+		return "updateUserName";
+	}
+	@RequestMapping (value= {"/users/modifyUserName"}, method = RequestMethod.POST)
+	public String modifyUserName(Model model, @Validated @ModelAttribute("credentials")Credentials credentials, 
+								BindingResult credentialsBindingResult){
+		Credentials newCredentials = sessionData.getLoggedCredentials();
+		credentialsValidator.validate(credentials, credentialsBindingResult);
+		if (!credentialsBindingResult.hasErrors()) {
+		newCredentials.setUserName(credentials.getUserName());
+		credentialsService.saveCredentials(newCredentials);
+		return "userNameModified";
+		}
+		return "userNameModified";
+	}
 }

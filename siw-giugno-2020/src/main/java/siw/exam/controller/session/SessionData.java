@@ -44,6 +44,10 @@ public class SessionData {
 			this.update();
 		return this.credentials;
 	}
+	
+	public void setLoggedCredentials(Credentials credentials) {
+		this.credentials= credentials;
+	}
 	public void setActiveProject(Project project) {
 		this.activeProject=project;
 	}
