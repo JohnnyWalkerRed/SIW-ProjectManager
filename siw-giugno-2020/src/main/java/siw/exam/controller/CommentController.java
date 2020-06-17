@@ -65,8 +65,9 @@ public class CommentController {
 		User loggedUser = this.sessionData.getLoggedUser();
 		Project activeProject = this.projectService.getProject(projectId);
 		Task activeTask = this.taskService.getTask(taskId);
+		List<User> members = this.userService.getMembers(activeProject);
 		/*controllo autenticità: solo un owner del task o del project può aggiungere un comment*/
-		if(!activeProject.getOwner().equals(loggedUser) && !activeTask.getOwner().equals(loggedUser))
+		if(!activeProject.getOwner().equals(loggedUser) && !members.contains(loggedUser))
 			return "redirect:/home";
 		else {
 			/*prepara i dati per il form incluso un nuovo commento*/
