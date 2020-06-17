@@ -6,7 +6,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import siw.exam.model.Task;
-import siw.exam.model.User;
 import siw.exam.repository.UserRepository;
 @Component
 public class TaskValidator implements Validator{

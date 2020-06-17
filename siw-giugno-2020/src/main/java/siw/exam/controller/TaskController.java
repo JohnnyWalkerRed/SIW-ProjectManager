@@ -159,5 +159,35 @@ public class TaskController {
 			return "redirect:/projects/"+activeProject.getId();
 		}
 	}
+	@RequestMapping (value= {"/tasks/{taskId}/{projectId}/updateTask"}, method = RequestMethod.GET)
+	public String updateTaskForm(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
+		Project activeProject = this.projectService.getProject(projectId);
+		User loggedUser = this.sessionData.getLoggedUser();
+		if(!activeProject.getOwner().equals(loggedUser))
+			return "redirect:/home";
+		else {
+			Task activeTask = this.taskService.getTask(taskId);
+			this.sessionData.setActiveTask(activeTask);
+			this.sessionData.setActiveProject(activeProject);
+			model.addAttribute("activeTask", activeTask);
+			return "updateTaskForm";
+		}
+	}
+	@RequestMapping(value = {"/tasks/updateTask"}, method=RequestMethod.POST)
+	public String updateTask(Model model,
+							 @Validated @ModelAttribute("activeTask") Task activeTask, 
+							 BindingResult taskBindingResult) {
+		this.taskValidator.validate(activeTask, taskBindingResult);
+		Project activeProject = this.sessionData.getActiveProject();
+		Task sessionTask = this.sessionData.getActiveTask();
+		if(!taskBindingResult.hasErrors()) {
+			
+			sessionTask.setName(activeTask.getName());
+			sessionTask.setDescription(activeTask.getDescription());
+			this.taskService.saveTask(sessionTask);
+			return "redirect:/projects/"+activeProject.getId();
+		}
+		return "redirect:/tasks/"+activeTask.getId()+"/"+activeProject.getId()+"/updateTask";
+	}
 	
 }

@@ -29,7 +29,9 @@
             <td>Registered at: </td>
             <td th:text="${user.creationDate}">...</td>
         </tr>
-      
+      	<tr>
+            <td><a th:href="'/users/'+${user.id}+'/update'">Update data</a></td>
+        </tr>
     </table>
 </body>
 </html>
