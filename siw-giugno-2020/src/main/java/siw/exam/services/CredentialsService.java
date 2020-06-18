@@ -58,4 +58,8 @@ public class CredentialsService {
 		
 	}
 	
+	public Credentials updateUsername (Credentials credentials) {
+		return this.credentialsRepository.save(credentials);
+	}
+	
 }
