@@ -16,6 +16,9 @@
 
 
 <table>
+		<tr>
+			<td> <input id=taskId type="hidden" placeholder="ID" th:field ="*{activeTask.id}"/> </td>
+		</tr>
 		<tr>	
 			<td> <label for="nameInput"> Name </label>
 			<td> <input id=nameInput type="text" placeholder="NAME" th:field="*{activeTask.name}"/></td>

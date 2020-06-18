@@ -152,7 +152,7 @@ public class TagController {
 		Tag sessionTag = this.sessionData.getActiveTag();
 		Project sessionProject = this.sessionData.getActiveProject();
 		/*il tag viene validato secondo i cirteri di validate*/
-		this.tagValidator.validate(activeTag, tagBindingResult);
+		this.tagValidator.validateInProject(activeTag, sessionProject, tagBindingResult);
 		if(!tagBindingResult.hasErrors()) {
 			/*se non ha errori le modifiche vengono attuate e salvate in db*/
 			sessionTag.setName(activeTag.getName());

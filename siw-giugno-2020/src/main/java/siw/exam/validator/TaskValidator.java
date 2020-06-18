@@ -26,7 +26,7 @@ public class TaskValidator implements Validator{
 	public void validateInProject(Task task, Project project, Errors errors) {
 		List<Task> tasks = project.getTasks();
 		for (Task t : tasks)
-			if(t.getName().equals(task.getName()))
+			if(t.getName().equals(task.getName()) && !t.getId().equals(task.getId()))
 				errors.rejectValue("name", "duplicated");
 		
 		this.validate(task, errors);
@@ -47,6 +47,7 @@ public class TaskValidator implements Validator{
 			errors.rejectValue("description", "required");
 		else if (description.length()<MIN_DESCRIPTION_LENGTH || description.length()>MAX_DESCRIPTION_LENGTH)
 			errors.rejectValue("description", "size");
+		
 	}
 
 }

@@ -183,7 +183,7 @@ public class TaskController {
 							 BindingResult taskBindingResult) {
 		Project activeProject = this.sessionData.getActiveProject();
 		/*validazione dei dati secondo task validator*/
-		this.taskValidator.validate(activeTask, taskBindingResult);
+		this.taskValidator.validateInProject(activeTask, activeProject, taskBindingResult);
 		
 		Task sessionTask = this.sessionData.getActiveTask();
 		if(!taskBindingResult.hasErrors()) {

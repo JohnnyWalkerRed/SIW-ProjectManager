@@ -27,8 +27,9 @@ public class TagValidator implements Validator{
 	/*metodo di valutazione intermedio. Serve ad assicurare che il tag sia unico all'interno del project. Si usa in creazione*/
 	public void validateInProject(Tag tag, Project project, Errors errors) {
 		List<Tag> tags = this.tagService.getTags(project);
+		
 		for (Tag t : tags)
-			if(t.getName().equals(tag.getName()))
+			if(t.getName().equals(tag.getName()) && !t.getId().equals(tag.getId()))
 				errors.rejectValue("name", "duplicated");
 		
 		this.validate(tag, errors);
