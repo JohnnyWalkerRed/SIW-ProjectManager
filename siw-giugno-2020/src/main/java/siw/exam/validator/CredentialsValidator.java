@@ -44,5 +44,19 @@ public class CredentialsValidator implements Validator{
 		else if(password.length()<MIN_PASSWORD_LENGTH || password.length()>MAX_PASSWORD_LENGTH)
 			errors.rejectValue("password", "size");
 	}
+	
+	public void validateUserName(Object target, Errors errors) {
+		Credentials credentials = (Credentials) target;
+		String userName = credentials.getUserName().trim();
+				
+		if(userName.trim().isEmpty())
+			errors.rejectValue("userName", "required");
+		else if(userName.length()<MIN_USERNAME_LENGTH || userName.length()>MAX_USERNAME_LENGTH)
+			errors.rejectValue("userName", "size");
+		else if(this.credentialsService.getCredentials(userName)!=null)
+			errors.rejectValue("userName", "duplicate");
+		
+	}
+
 
 }

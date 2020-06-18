@@ -69,14 +69,14 @@ public class AuthenticationController {
 	}
 	@RequestMapping (value= {"/users/modifyUserName"}, method = RequestMethod.POST)
 	public String modifyUserName(Model model, @Validated @ModelAttribute("credentials")Credentials credentials, 
-								BindingResult credentialsBindingResult){
+								BindingResult userNameBindingResult){
 		Credentials newCredentials = sessionData.getLoggedCredentials();
-		credentialsValidator.validate(credentials, credentialsBindingResult);
-		if (!credentialsBindingResult.hasErrors()) {
+		credentialsValidator.validateUserName(credentials, userNameBindingResult);
+		if (!userNameBindingResult.hasErrors()) {
 		newCredentials.setUserName(credentials.getUserName());
-		credentialsService.saveCredentials(newCredentials);
+		credentialsService.updateUsername(newCredentials);
 		return "userNameModified";
 		}
-		return "userNameModified";
+		return "aggiornamentoNonRiuscito";
 	}
 }
