@@ -71,17 +71,20 @@ public class TagController {
 	/*richiesta POST dopo il form di creazione del tag*/
 	@RequestMapping (value = {"/tags/projects/add"}, method = RequestMethod.POST)
 	public String addTagToProjectForm(Model model, @Validated @ModelAttribute Tag tagForm, BindingResult tagBindingResult) {
-		this.tagValidator.validate(tagForm, tagBindingResult);
 		/*il project viene preso dai dati di sessione invece che richiesto al service. 
 		 * è stato inserito nei dati di sessione dalla schermata precedente a questa (metodo "addTagToProjectForm")*/
 		Project project = this.sessionData.getActiveProject();
+		this.tagValidator.validateInProject(tagForm, project, tagBindingResult);
+		
+		
 		/*validazione dei dati inseriti nel form. 
 		 * Se validi il tag è aggiunto alla lista di tags del project (strategia LAZY) ed è salvato*/
 		if(!tagBindingResult.hasErrors()) {
 			this.tagService.saveTag(tagForm);
 			this.projectService.addTag(project, tagForm);
+			return "redirect:/projects";
 		}
-		return "redirect:/projects";
+		return "redirect:/tags/projects/"+project.getId()+"/addTag";
 	}
 	/*richiesta di aggiunta di un tag ad un task*/
 	@RequestMapping (value = {"/tags/{taskId}/{tagId}/addTag/{projectId}"}, method=RequestMethod.GET)
@@ -142,9 +145,10 @@ public class TagController {
 	public String updateTag(Model model, 
 							@Validated @ModelAttribute("activeTag") Tag activeTag, 
 							BindingResult tagBindingResult) {
-		this.tagValidator.validate(activeTag, tagBindingResult);
+		
 		Tag sessionTag = this.sessionData.getActiveTag();
 		Project sessionProject = this.sessionData.getActiveProject();
+		this.tagValidator.validate(activeTag, tagBindingResult);
 		if(!tagBindingResult.hasErrors()) {
 			sessionTag.setName(activeTag.getName());
 			sessionTag.setColor(activeTag.getColor());

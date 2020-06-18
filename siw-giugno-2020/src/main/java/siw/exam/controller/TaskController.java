@@ -179,7 +179,7 @@ public class TaskController {
 							 @Validated @ModelAttribute("activeTask") Task activeTask, 
 							 BindingResult taskBindingResult) {
 		Project activeProject = this.sessionData.getActiveProject();
-		this.taskValidator.validateInProject(activeTask, activeProject ,taskBindingResult);
+		this.taskValidator.validate(activeTask, taskBindingResult);
 		
 		Task sessionTask = this.sessionData.getActiveTask();
 		if(!taskBindingResult.hasErrors()) {
