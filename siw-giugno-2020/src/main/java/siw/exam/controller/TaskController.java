@@ -60,8 +60,9 @@ public class TaskController {
 	public String addTask(@Validated @ModelAttribute("taskForm") Task task, 
 						  BindingResult taskBindingResult, 
 						  Model model){
-		taskValidator.validate(task, taskBindingResult);
 		Project activeProject = this.sessionData.getActiveProject();
+		taskValidator.validateInProject(task, activeProject, taskBindingResult);
+		
 		/*dopo aver validato i dati inseriti si procede*/
 		if(!taskBindingResult.hasErrors()) {
 			//List<User> members = this.userService.getUsersByVisibleProject(activeProject);
@@ -81,7 +82,7 @@ public class TaskController {
 		/*se i dati non sono convalidati prepara la vista dei projects*/
 		model.addAttribute("project", activeProject);
 		model.addAttribute("activeTask", task);
-		return "redirect:/projects";
+		return "redirect:/tasks/"+activeProject.getId()+"/addTask";
 	}
 	/*richiesta per impostare come completato un task*/
 	@RequestMapping (value = {"/tasks/{taskId}/{projectId}/setCompleted"}, method = RequestMethod.GET)
@@ -177,17 +178,18 @@ public class TaskController {
 	public String updateTask(Model model,
 							 @Validated @ModelAttribute("activeTask") Task activeTask, 
 							 BindingResult taskBindingResult) {
-		this.taskValidator.validate(activeTask, taskBindingResult);
 		Project activeProject = this.sessionData.getActiveProject();
+		this.taskValidator.validateInProject(activeTask, activeProject ,taskBindingResult);
+		
 		Task sessionTask = this.sessionData.getActiveTask();
 		if(!taskBindingResult.hasErrors()) {
 			
 			sessionTask.setName(activeTask.getName());
 			sessionTask.setDescription(activeTask.getDescription());
 			this.taskService.saveTask(sessionTask);
-			return "redirect:/projects/"+activeProject.getId();
+			return "redirect:/projects";
 		}
-		return "redirect:/tasks/"+activeTask.getId()+"/"+activeProject.getId()+"/updateTask";
+		return "redirect:/tasks/"+sessionTask.getId()+"/"+activeProject.getId()+"/updateTask";
 	}
 	
 }

@@ -1,10 +1,13 @@
 package siw.exam.validator;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import siw.exam.model.Project;
 import siw.exam.model.Task;
 import siw.exam.repository.UserRepository;
 @Component
@@ -20,7 +23,14 @@ public class TaskValidator implements Validator{
 		return Task.class.equals(clazz);
 	}
 	
-	
+	public void validateInProject(Task task, Project project, Errors errors) {
+		List<Task> tasks = project.getTasks();
+		for (Task t : tasks)
+			if(t.getName().equals(task.getName()))
+				errors.rejectValue("name", "duplicated");
+		
+		this.validate(task, errors);
+	}
 	
 	@Override
 	public void validate(Object target, Errors errors) {
