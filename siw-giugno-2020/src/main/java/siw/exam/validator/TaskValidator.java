@@ -40,7 +40,7 @@ public class TaskValidator implements Validator{
 		if(name.trim().isEmpty())
 			errors.rejectValue("taskName", "required");
 		else if (name.length()<MIN_NAME_LENGTH || name.length()>MAX_NAME_LENGTH)
-			errors.rejectValue("taskName", "size");
+			errors.rejectValue("name", "size");
 		
 		if(description.trim().isEmpty())
 			errors.rejectValue("description", "required");
