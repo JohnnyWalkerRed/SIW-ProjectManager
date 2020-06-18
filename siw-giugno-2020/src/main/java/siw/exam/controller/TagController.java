@@ -126,30 +126,35 @@ public class TagController {
 			return "redirect:/projects/"+projectId;
 		}
 	}
+	/*richiesta di accesso al form per modificare i dati del tag*/
 	@RequestMapping(value= {"/tags/{tagId}/{projectId}/updateTag"}, method=RequestMethod.GET)
 	public String updateTagForm(Model model, @PathVariable Long tagId, @PathVariable Long projectId) {
 		Tag activeTag = this.tagService.getTag(tagId);
 		Project activeProject = this.projectService.getProject(projectId);
 		User loggedUser = this.sessionData.getLoggedUser();
-		/*controllo autenticazione, solo owner può rimuovere il tag*/
+		/*controllo autenticazione, solo owner può modificare il tag*/
 		if(!activeProject.getOwner().equals(loggedUser))
 			return "redirect:/home";
 		else {
+			/*prepara i dati per il form*/
 			this.sessionData.setActiveProject(activeProject);
 			this.sessionData.setActiveTag(activeTag);
 			model.addAttribute("activeTag", activeTag);
 			return "updateTagForm";
 		}
 	}
+	/*richiesta POST successiva al form di modifica del tag*/
 	@RequestMapping(value= {"/tags/updateTag"}, method = RequestMethod.POST)
 	public String updateTag(Model model, 
 							@Validated @ModelAttribute("activeTag") Tag activeTag, 
 							BindingResult tagBindingResult) {
-		
+		/*tag e project sono presi dalla session*/
 		Tag sessionTag = this.sessionData.getActiveTag();
 		Project sessionProject = this.sessionData.getActiveProject();
+		/*il tag viene validato secondo i cirteri di validate*/
 		this.tagValidator.validate(activeTag, tagBindingResult);
 		if(!tagBindingResult.hasErrors()) {
+			/*se non ha errori le modifiche vengono attuate e salvate in db*/
 			sessionTag.setName(activeTag.getName());
 			sessionTag.setColor(activeTag.getColor());
 			sessionTag.setDescription(activeTag.getDescription());

@@ -24,7 +24,7 @@ public class TagValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		return Tag.class.equals(clazz);
 	}
-
+	/*metodo di valutazione intermedio. Serve ad assicurare che il tag sia unico all'interno del project. Si usa in creazione*/
 	public void validateInProject(Tag tag, Project project, Errors errors) {
 		List<Tag> tags = this.tagService.getTags(project);
 		for (Tag t : tags)
@@ -33,7 +33,8 @@ public class TagValidator implements Validator{
 		
 		this.validate(tag, errors);
 	}
-	
+	/*metodo di validazione standard, usato in update
+	 * (un tag con nome uguale ma descrizione diversa deve essere valutato corretto per le funzioni di update)*/
 	@Override
 	public void validate(Object target, Errors errors) {
 		Tag tag = (Tag) target;

@@ -22,7 +22,7 @@ public class TaskValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		return Task.class.equals(clazz);
 	}
-	
+	/*metodo di validazione intermedio usato dalle funzioni di creazione del task*/
 	public void validateInProject(Task task, Project project, Errors errors) {
 		List<Task> tasks = project.getTasks();
 		for (Task t : tasks)
@@ -31,7 +31,8 @@ public class TaskValidator implements Validator{
 		
 		this.validate(task, errors);
 	}
-	
+	/*metodo standard per validare senza considerare la ripetizione del task all'interno dello stesso peoject. 
+	 * si usa da solo negli update*/
 	@Override
 	public void validate(Object target, Errors errors) {
 		Task task = (Task)target;

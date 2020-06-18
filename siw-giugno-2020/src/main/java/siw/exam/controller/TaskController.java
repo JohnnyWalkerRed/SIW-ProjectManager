@@ -160,13 +160,16 @@ public class TaskController {
 			return "redirect:/projects/"+activeProject.getId();
 		}
 	}
+	/*richiesta di accesso al form per la modifica del task*/
 	@RequestMapping (value= {"/tasks/{taskId}/{projectId}/updateTask"}, method = RequestMethod.GET)
 	public String updateTaskForm(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
 		Project activeProject = this.projectService.getProject(projectId);
 		User loggedUser = this.sessionData.getLoggedUser();
+		/*controllo di autenticazione: solo l'owner del project può eseguire la modifica*/
 		if(!activeProject.getOwner().equals(loggedUser))
 			return "redirect:/home";
 		else {
+			/*autenticazione avvenuta, prepara i dati per il form*/
 			Task activeTask = this.taskService.getTask(taskId);
 			this.sessionData.setActiveTask(activeTask);
 			this.sessionData.setActiveProject(activeProject);
@@ -179,11 +182,12 @@ public class TaskController {
 							 @Validated @ModelAttribute("activeTask") Task activeTask, 
 							 BindingResult taskBindingResult) {
 		Project activeProject = this.sessionData.getActiveProject();
+		/*validazione dei dati secondo task validator*/
 		this.taskValidator.validate(activeTask, taskBindingResult);
 		
 		Task sessionTask = this.sessionData.getActiveTask();
 		if(!taskBindingResult.hasErrors()) {
-			
+			/*dati validi, modifiche attuate e salvate nel DB*/
 			sessionTask.setName(activeTask.getName());
 			sessionTask.setDescription(activeTask.getDescription());
 			this.taskService.saveTask(sessionTask);

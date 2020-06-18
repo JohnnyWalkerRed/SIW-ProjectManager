@@ -194,23 +194,29 @@ public class ProjectController {
 			return "redirect:/projects/"+projectId;
 		}
 	}
+	/*rihiesta di accesso al form per modificare i dati*/
 	@RequestMapping (value= {"/project/{projectId}/updateProject"}, method = RequestMethod.GET)
 	public String updateProject(Model model, @PathVariable Long projectId) {
+		/*prepara il project per il form che segue*/
 		Project activeProject = this.projectService.getProject(projectId);
 		sessionData.setActiveProject(activeProject);
 		model.addAttribute("project", activeProject);
 		return "updateProject";
 	}
+	/*richiesta POST doppo il form di modifica del project*/
 	@RequestMapping (value= {"/project/updateProject"}, method = RequestMethod.POST)
 	public String updateProject(Model model, @Validated @ModelAttribute("project")Project project, 
 								BindingResult projectBindingResult){
+		/*il project è preso dalla session*/
 		Project activeProject = sessionData.getActiveProject();
+		/*validato secondo i criteri di validate*/
 		projectValidator.validate(project, projectBindingResult);
 		if (!projectBindingResult.hasErrors()) {
-		activeProject.setName(project.getName());
-		activeProject.setDescription(project.getDescription());
-		projectService.saveProject(activeProject);
-		return "redirect:/projects/";
+			/*se non ha errors le modifiche sono attuate e salvate*/
+			activeProject.setName(project.getName());
+			activeProject.setDescription(project.getDescription());
+			projectService.saveProject(activeProject);
+			return "redirect:/projects/";
 		}
 		return "redirect:/projects/";
 	}
